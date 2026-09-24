@@ -163,6 +163,7 @@ const Register = () => {
           onKeyDown={registerOnEnter}
           setAlias={setAlias}
           setPassword={setPassword}
+          isFormBottom={false}
         />
         <div className="form-floating mb-3">
           <input

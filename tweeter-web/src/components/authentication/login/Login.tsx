@@ -79,6 +79,7 @@ const Login = (props: Props) => {
           onKeyDown={loginOnEnter}
           setAlias={setAlias}
           setPassword={setPassword}
+          isFormBottom={true}
         />
       </>
     );
