@@ -16,10 +16,11 @@ export const PAGE_SIZE = 10;
 interface Props {
     itemDescription: string,
     featureUrl: string,
-    loadMore: (authToken: AuthToken,
-        userAlias: string,
-        pageSize: number,
-        lastItem: User | null
+    loadMore: (
+      authToken: AuthToken,
+      userAlias: string,
+      pageSize: number,
+      lastItem: User | null
     ) => Promise<[User[], boolean]>
 }
 const UserItemScroller = (props: Props) => {
