@@ -2,7 +2,7 @@ interface Props {
     onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void,
     setAlias: (value: React.SetStateAction<string>) => void,
     setPassword: (value: React.SetStateAction<string>) => void,
-    isFormBottom: boolean
+    passwordIsFormBottom: boolean
 }
 
 const AuthenticationFields = (props: Props) => {
@@ -20,10 +20,10 @@ const AuthenticationFields = (props: Props) => {
           />
           <label htmlFor="aliasInput">Alias</label>
         </div>
-        <div className="form-floating">
+        <div className={`form-floating ${props.passwordIsFormBottom ? "mb-3" : ""}`}>
           <input
             type="password"
-            className={`form-control ${props.isFormBottom ? "bottom" : ""}`}
+            className={`form-control ${props.passwordIsFormBottom ? "bottom" : ""}`}
             id="passwordInput"
             placeholder="Password"
             onKeyDown={props.onKeyDown}
