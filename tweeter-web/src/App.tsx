@@ -14,6 +14,9 @@ import UserItemScroller from "./components/mainLayout/UserItemScroller";
 import { AuthToken, User, FakeData, Status } from "tweeter-shared";
 import StatusItemScroller from "./components/mainLayout/StatusItemScroller";
 import { useUserInfo } from "./components/userInfo/UserInfoHooks";
+import { FolloweePresenter } from "./presenter/FolloweePresenter";
+import { UserItemView } from "./presenter/UserItemPresenter";
+import { FollowerPresenter } from "./presenter/FollowerPresenter";
 
 const App = () => {
   const { currentUser, authToken } = useUserInfo();
@@ -104,9 +107,8 @@ const AuthenticatedRoutes = () => {
           element={
             <UserItemScroller
               key={`folowees-${displayedUser!.alias}`}
-              itemDescription="followees"
               featureUrl="/followees"
-              loadMore={loadMoreFollowees}
+              presenterFactory={(listener: UserItemView) => new FolloweePresenter(listener)}
             />
           } />
         <Route
@@ -114,9 +116,8 @@ const AuthenticatedRoutes = () => {
           element={
             <UserItemScroller
               key={`folowers-${displayedUser!.alias}`}
-              itemDescription="followers"
               featureUrl="/followers"
-              loadMore={loadMoreFollowers}
+              presenterFactory={(listener: UserItemView) => new FollowerPresenter(listener)}
             />
           } />
         <Route path="logout" element={<Navigate to="/login" />} />
