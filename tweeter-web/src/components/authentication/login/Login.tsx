@@ -15,7 +15,6 @@ interface Props {
 const Login = (props: Props) => {
   const [alias, setAlias] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -35,7 +34,7 @@ const Login = (props: Props) => {
   };
 
   const doLogin = async () => {
-    const toUrl = await presenterRef.current!.login(alias, password, rememberMe, props.originalUrl);
+    const toUrl = await presenterRef.current!.login(alias, password, props.originalUrl);
     if(toUrl) navigate(toUrl);
   };
 
@@ -67,7 +66,7 @@ const Login = (props: Props) => {
       oAuthHeading="Sign in with:"
       inputFieldFactory={inputFieldFactory}
       switchAuthenticationMethodFactory={switchAuthenticationMethodFactory}
-      setRememberMe={setRememberMe}
+      setRememberMe={(rememberMe) => presenterRef.current!.rememberMe = rememberMe}
       submitButtonDisabled={checkSubmitButtonStatus}
       isLoading={isLoading}
       submit={doLogin}
