@@ -1,7 +1,8 @@
 import "./Toaster.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Toast } from "react-bootstrap";
 import { useMessageActions, useMessageList } from "./MessageHooks";
+import { ToasterPresenter } from "../../presenter/toaster/ToasterPresenter";
 
 interface Props {
   position: string;
@@ -10,11 +11,15 @@ interface Props {
 const Toaster = ({ position }: Props) => {
   const messageList = useMessageList();
   const { deleteMessage } = useMessageActions();
+  const presenterRef = useRef<ToasterPresenter | null>(null);
+  if (!presenterRef.current) {
+    presenterRef.current = new ToasterPresenter({ deleteMessage });
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (messageList.length) {
-        deleteExpiredToasts();
+        presenterRef.current!.deleteExpiredToasts(messageList);
       }
     }, 1000);
 
@@ -23,19 +28,6 @@ const Toaster = ({ position }: Props) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageList]);
-
-  const deleteExpiredToasts = () => {
-    const now = Date.now();
-
-    for (let message of messageList) {
-      if (
-        message.expirationMillisecond > 0 &&
-        message.expirationMillisecond < now
-      ) {
-        deleteMessage(message.id);
-      }
-    }
-  };
 
   return (
     <>
@@ -47,7 +39,7 @@ const Toaster = ({ position }: Props) => {
             className={message.bootstrapClasses}
             autohide={false}
             show={true}
-            onClose={() => deleteMessage(message.id)}
+            onClose={() => presenterRef.current!.deleteMessage(message.id)}
           >
             <Toast.Header>
               <img
