@@ -1,11 +1,15 @@
 import { AuthToken, User, FakeData } from "tweeter-shared";
 
 export class UserService {
-    public async getUser (
+    public async getUser(
         authToken: AuthToken,
         alias: string
-      ): Promise<User | null> {
+    ): Promise<User | null> {
         // TODO: Replace with the result of calling server
         return FakeData.instance.findUserByAlias(alias);
-      };
+    };
+
+    public updateUserInfo() { return null; }
+    public clearUserInfo() { return null; }
+    public setDisplayedUser() { return null; }
 }

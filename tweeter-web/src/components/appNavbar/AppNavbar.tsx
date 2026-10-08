@@ -2,9 +2,10 @@ import "./AppNavbar.css";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Image from "react-bootstrap/Image";
-import { AuthToken } from "tweeter-shared";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo, useUserInfoActions } from "../userInfo/UserInfoHooks";
+import { AppNavbarPresenter } from "../../presenter/appNavbar/AppNavbarPresenter";
+import { useEffect, useRef } from "react";
 
 const AppNavbar = () => {
   const location = useLocation();
@@ -12,25 +13,21 @@ const AppNavbar = () => {
   const { clearUserInfo } = useUserInfoActions();
   const navigate = useNavigate();
   const { displayErrorMessage, displayInfoMessage, deleteMessage } = useMessageActions();
+  const presenterRef = useRef<AppNavbarPresenter | null>(null);
 
-  const logOut = async () => {
-    const loggingOutToastId = displayInfoMessage("Logging Out...", 0);
+  if (!presenterRef.current) {
+    presenterRef.current = new AppNavbarPresenter({
+      displayInfoMessage: displayInfoMessage,
+      deleteMessage: deleteMessage,
+      displayErrorMessage: displayErrorMessage,
+      clearUserInfo: clearUserInfo
+    });
+  }
 
-    try {
-      await logout(authToken!);
-
-      deleteMessage(loggingOutToastId);
-      clearUserInfo();
-      navigate("/login");
-    } catch (error) {
-      displayErrorMessage(`Failed to log user out because of exception: ${error}`);
-    }
-  };
-
-  const logout = async (authToken: AuthToken): Promise<void> => {
-    // Pause so we can see the logging out message. Delete when the call to the server is implemented.
-    await new Promise((res) => setTimeout(res, 1000));
-  };
+  const logout = async () => {
+    const loggedOut = await presenterRef.current!.logOut(authToken!);
+    if(loggedOut) navigate("/login");
+  }
 
   return (
     <Navbar
@@ -109,7 +106,7 @@ const AppNavbar = () => {
             <Nav.Item>
               <NavLink
                 id="logout"
-                onClick={logOut}
+                onClick={logout}
                 to={location.pathname}
                 className={({ isActive }) =>
                   isActive ? "nav-link active" : "nav-link"
