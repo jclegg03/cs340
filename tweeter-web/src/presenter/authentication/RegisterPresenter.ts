@@ -1,0 +1,127 @@
+import { AuthToken, User } from "tweeter-shared";
+import { UserService } from "../../model.service/UserService";
+import { Buffer } from 'buffer';
+
+export interface View {
+    setImageUrl: (url: string) => void,
+    setIsLoading: (isLoading: boolean) => void,
+    updateUserInfo: (currentUser: User, displayedUser: User | null, authToken: AuthToken, remember: boolean) => void,
+    displayErrorMessage: (message: string, bootstrapClasses?: string | undefined) => string
+}
+
+export class RegisterPresenter {
+    private userService = new UserService();
+    private _firstName = "";
+    private _lastName = "";
+    private _alias = "";
+    private _password = "";
+    private _rememberMe = false;
+    private imageFileExtension = "";
+    private imageBytes = new Uint8Array();
+
+    constructor(private view: View) { }
+
+    public submitButtonEnabled(imageUrl: string) {
+        return (
+            !this.firstName ||
+            !this.lastName ||
+            !this.alias ||
+            !this.password ||
+            !imageUrl ||
+            !this.imageFileExtension
+        );
+    }
+
+    public async register(): Promise<string | null> {
+        try {
+            this.view.setIsLoading(true);
+
+            const [user, authToken] = await this.userService.register(
+                this.firstName,
+                this.lastName,
+                this.alias,
+                this.password,
+                new Uint8Array(this.imageBytes),
+                this.imageFileExtension
+            );
+
+            this.view.updateUserInfo(user, user, authToken, this.rememberMe);
+            return user.alias;
+        } catch (error) {
+            this.view.displayErrorMessage(`Failed to register user because of exception: ${error}`);
+        } finally {
+            this.view.setIsLoading(false);
+        }
+
+        return null;
+    }
+
+    public handleImageFile(file: File | undefined) {
+        if (file) {
+            this.view.setImageUrl(URL.createObjectURL(file));
+
+            const reader = new FileReader();
+            reader.onload = (event: ProgressEvent<FileReader>) => {
+                const imageStringBase64 = event.target?.result as string;
+
+                // Remove unnecessary file metadata from the start of the string.
+                const imageStringBase64BufferContents =
+                    imageStringBase64.split("base64,")[1];
+
+                this.imageBytes = new Uint8Array(Buffer.from(
+                    imageStringBase64BufferContents,
+                    "base64"
+                ));
+            };
+            reader.readAsDataURL(file);
+
+            // Set image file extension (and move to a separate method)
+            const fileExtension = this.getFileExtension(file);
+            if (fileExtension) {
+                this.imageFileExtension = fileExtension;
+            }
+        } else {
+            this.view.setImageUrl("");
+            this.imageBytes = new Uint8Array();
+        }
+    }
+
+    private getFileExtension(file: File): string | undefined {
+        return file.name.split(".").pop();
+    }
+
+    public get firstName() {
+        return this._firstName;
+    }
+    public set firstName(firstName: string) {
+        this._firstName = firstName;
+    }
+
+    public get lastName() {
+        return this._lastName;
+    }
+    public set lastName(lastName: string) {
+        this._lastName = lastName;
+    }
+
+    public get alias() {
+        return this._alias;
+    }
+    public set alias(alias: string) {
+        this._alias = alias;
+    }
+
+    public get password() {
+        return this._password;
+    }
+    public set password(password) {
+        this._password = password;
+    }
+
+    public get rememberMe() {
+        return this._rememberMe;
+    }
+    public set rememberMe(rememberMe) {
+        this._rememberMe = rememberMe;
+    }
+}

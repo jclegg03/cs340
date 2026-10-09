@@ -1,7 +1,7 @@
 interface Props {
     onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void,
-    setAlias: (value: React.SetStateAction<string>) => void,
-    setPassword: (value: React.SetStateAction<string>) => void,
+    setAlias: (value: string) => void,
+    setPassword: (value: string) => void,
     passwordIsFormBottom: boolean
 }
 
