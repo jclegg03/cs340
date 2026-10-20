@@ -9,7 +9,7 @@ export class FeedPresenter extends StatusItemPresenter {
     }
 
     public async loadMoreItems(authToken: AuthToken, userAlias: string) {
-        this.tryAndCatch(async () => {
+        this.tryAndCatch<void>(async () => {
             const [newItems, hasMore] = await this.statusService.loadMoreFeedItems(
                 authToken!,
                 userAlias,
