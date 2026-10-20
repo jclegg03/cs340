@@ -8,9 +8,6 @@ export interface PostStatusView extends MessageView, LoadingView {
 
 export class PostStatusPresenter extends Presenter<PostStatusView> {
     private statusService = new StatusService();
-    constructor(view: PostStatusView) {
-        super(view);
-    }
 
     public clearPost() {
         this.view.setPost("");

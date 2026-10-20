@@ -19,7 +19,7 @@ interface TryAndCatchContext<T> {
 }
 
 export abstract class Presenter<T extends View> {
-    protected constructor(private _view: T) { }
+    public constructor(private _view: T) { }
     protected async tryAndCatch<T>(context: TryAndCatchContext<T>): Promise<T> {
         const {
             operation,

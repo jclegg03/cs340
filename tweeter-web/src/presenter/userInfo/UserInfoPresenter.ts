@@ -10,9 +10,6 @@ export interface UserInfoView extends LoadingView, MessageView {
 
 export class UserInfoPresenter extends Presenter<UserInfoView> {
     private followService = new FollowService()
-    constructor(view: UserInfoView) {
-        super(view);
-    }
 
     public async setIsFollowerStatus(
         authToken: AuthToken,

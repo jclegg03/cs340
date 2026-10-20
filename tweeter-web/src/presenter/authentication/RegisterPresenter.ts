@@ -18,10 +18,6 @@ export class RegisterPresenter extends Presenter<RegisterView> {
     private imageFileExtension = "";
     private imageBytes = new Uint8Array();
 
-    constructor(view: RegisterView) {
-        super(view);
-    }
-
     public submitButtonEnabled(imageUrl: string) {
         return (
             !this.firstName ||

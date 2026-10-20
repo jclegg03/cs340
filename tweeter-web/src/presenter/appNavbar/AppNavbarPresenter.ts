@@ -9,10 +9,6 @@ export interface AppNavbarView extends MessageView {
 export class AppNavbarPresenter extends Presenter<AppNavbarView> {
   private userService = new UserService();
 
-  public constructor(view: AppNavbarView) {
-    super(view);
-  }
-
   public updateUserInfo() { return this.userService.updateUserInfo(); }
   public setDisplayedUser() { return this.userService.setDisplayedUser(); }
 

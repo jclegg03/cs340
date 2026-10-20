@@ -9,9 +9,6 @@ export interface LoginView extends LoadingView {
 export class LoginPresenter extends Presenter<LoginView> {
     private userService = new UserService();
     private _rememberMe = false;
-    constructor(view: LoginView) {
-        super(view);
-    }
 
     public checkSubmitButtonStatus(alias: string, password: string): boolean {
         return !alias || !password;
