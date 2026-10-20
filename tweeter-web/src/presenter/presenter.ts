@@ -3,18 +3,13 @@ export interface View {
 }
 
 export interface MessageView extends View {
-    displayInfoMessage: (message: string, duration: number, bootstrapClasses?: string | undefined) => string
-}
-
-export interface MessageDeletionView extends View {
-    deleteMessage: (messageId: string) => void
+    displayInfoMessage: (message: string, duration: number, bootstrapClasses?: string | undefined) => string;
+    deleteMessage: (messageId: string) => void;
 }
 
 export interface LoadingView extends View {
     setIsLoading: (isLoading: boolean) => void
 }
-
-export interface AllMessageView extends MessageDeletionView, MessageView { }
 
 interface TryAndCatchContext<T> {
     operation: () => Promise<T>;
