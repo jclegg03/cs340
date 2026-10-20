@@ -11,10 +11,6 @@ export abstract class UserItemPresenter extends Presenter<UserItemView>{
     private _lastItem: User | null = null;
     private userService: UserService = new UserService();
 
-    protected constructor(view: UserItemView) {
-        super(view);
-     }
-
     public abstract loadMoreItems(authToken: AuthToken, userAlias: string): void;
 
     public reset() {

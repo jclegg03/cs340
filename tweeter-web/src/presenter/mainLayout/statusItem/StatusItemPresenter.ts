@@ -12,10 +12,6 @@ export abstract class StatusItemPresenter extends Presenter<StatusItemView> {
     private _lastItem: Status | null = null;
     private userService: UserService = new UserService();
     private _statusService = new StatusService();
-    
-    constructor(view: StatusItemView) {
-        super(view);
-    }
 
     public abstract loadMoreItems(authToken: AuthToken, userAlias: string): void;
 
