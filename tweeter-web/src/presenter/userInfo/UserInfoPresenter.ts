@@ -19,7 +19,7 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
         currentUser: User,
         displayedUser: User,
     ) {
-        this.tryAndCatch<void>({
+        await this.tryAndCatch<void>({
             operation: async () => {
                 if (currentUser === displayedUser) {
                     this.view.setIsFollower(false);
@@ -37,57 +37,39 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
         authToken: AuthToken,
         displayedUser: User,
     ) {
-        this.tryAndCatch<void>({
-            operation: async () => this.view.setFolloweeCount(await this.followService.getFolloweeCount(authToken, displayedUser)),
-            operationDescription: "followees count"
-        });
+        await this.setFollowerCounts(() => this.followService.getFolloweeCount(authToken, displayedUser), this.view.setFolloweeCount, "followees count");
     }
 
     public async setNumbFollowers(
         authToken: AuthToken,
         displayedUser: User,
     ) {
-        this.tryAndCatch<void>({
-            operation: async () => this.view.setFollowerCount(await this.followService.getFollowerCount(authToken, displayedUser)),
-            operationDescription: "get followers count"
+        await this.setFollowerCounts(() => this.followService.getFollowerCount(authToken, displayedUser), this.view.setFollowerCount, "get followers count");
+    }
+
+    private async setFollowerCounts(serviceMethod: () => Promise<number>, viewMethod: (num: number) => void, description: string) {
+        await this.tryAndCatch({
+            operation: async () => viewMethod(await serviceMethod()),
+            operationDescription: description
         });
     }
 
     public async followUser(authToken: AuthToken, user: User) {
-        var followingUserToast = "";
-        this.tryAndCatch({
-            operation: async () => {
-                this.view.setIsLoading(true);
-                followingUserToast = this.view.displayInfoMessage(`Following ${user.name}...`, 0);
-
-                const [followerCount, followeeCount] = await this.followService.follow(
-                    authToken,
-                    user,
-                );
-
-                this.view.setIsFollower(true);
-                this.view.setFollowerCount(followerCount);
-                this.view.setFolloweeCount(followeeCount);
-            },
-            operationDescription: "follow user",
-            finalOperation: async () => {
-                this.view.deleteMessage(followingUserToast);
-                this.view.setIsLoading(false);
-            }
-        });
+        await this.followOperation(user, async () => await this.followService.follow(authToken, user));
     }
 
     public async unfollowUser(authToken: AuthToken, user: User) {
-        var unfollowingUserToast = "";
-        this.tryAndCatch({
+        await this.followOperation(user, async () => this.followService.unfollow(authToken, user));
+    }
+
+    private async followOperation(user: User, serviceFunction: () => Promise<[number, number]>) {
+        var toastId = "";
+        await this.tryAndCatch({
             operation: async () => {
                 this.view.setIsLoading(true);
-                unfollowingUserToast = this.view.displayInfoMessage(`Unfollowing ${user!.name}...`, 0);
+                toastId = this.view.displayInfoMessage(`Unfollowing ${user.name}...`, 0);
 
-                const [followerCount, followeeCount] = await this.followService.unfollow(
-                    authToken,
-                    user,
-                );
+                const [followerCount, followeeCount] = await serviceFunction();
 
                 this.view.setIsFollower(false);
                 this.view.setFollowerCount(followerCount);
@@ -95,7 +77,7 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
             },
             operationDescription: "unfollow user",
             finalOperation: async () => {
-                this.view.deleteMessage(unfollowingUserToast);
+                this.view.deleteMessage(toastId);
                 this.view.setIsLoading(false);
             }
         });
