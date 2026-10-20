@@ -25,7 +25,7 @@ export abstract class ItemPresenter<T, U extends Service> extends Presenter<Item
     }
 
     public async loadMoreItems(authToken: AuthToken, userAlias: string) {
-        this.tryAndCatch<void>({
+        await this.tryAndCatch<void>({
             operation: async () => {
                 const [newItems, hasMore] = await this.getMoreItems(authToken, userAlias);
 

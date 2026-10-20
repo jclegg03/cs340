@@ -18,7 +18,7 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
 
     public async submitPost(post: string, currentUser: User, authToken: AuthToken) {
         var postingStatusToastId = "";
-        this.tryAndCatch<void>({
+        await this.tryAndCatch<void>({
             operation: async () => {
                 this.view.setIsLoading(true);
                 postingStatusToastId = this.view.displayInfoMessage("Posting status...", 0);

@@ -18,7 +18,7 @@ export class LoginPresenter extends Presenter<LoginView> {
     }
 
     public async login(alias: string, password: string, originalUrl?: string): Promise<string> {
-        return this.tryAndCatch<string>({
+        return await this.tryAndCatch<string>({
             operation: async () => {
                 this.view.setIsLoading(true);
 
