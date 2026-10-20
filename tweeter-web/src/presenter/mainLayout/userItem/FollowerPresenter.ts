@@ -12,8 +12,8 @@ export class FollowerPresenter extends UserItemPresenter {
     }
 
     public async loadMoreItems(authToken: AuthToken, userAlias: string) {
-        this.tryAndCatch<void>(
-            async () => {
+        this.tryAndCatch<void>({
+            operation: async () => {
                 const [newItems, hasMore] = await this.followService.loadMoreFollowers(
                     authToken,
                     userAlias,
@@ -24,7 +24,8 @@ export class FollowerPresenter extends UserItemPresenter {
                 this.hasMoreItems = hasMore;
                 this.lastItem = newItems.length > 0 ? newItems[newItems.length - 1] : null;
                 this.view.addItems(newItems);
-            }, "load followers"
-        );
+            },
+            operationDescription: "load followers"
+        });
     };
 }

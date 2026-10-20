@@ -18,8 +18,8 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
 
     public async submitPost(post: string, currentUser: User, authToken: AuthToken) {
         var postingStatusToastId = "";
-        this.tryAndCatch<void>(
-            async () => {
+        this.tryAndCatch<void>({
+            operation: async () => {
                 this.view.setIsLoading(true);
                 postingStatusToastId = this.view.displayInfoMessage("Posting status...", 0);
 
@@ -29,12 +29,13 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
 
                 this.view.setPost("");
                 this.view.displayInfoMessage("Status posted!", 2000);
-            }, "post the status", async () => { },
-            async () => {
+            }, 
+            operationDescription: "post the status", 
+            finalOperation: async () => {
                 this.view.deleteMessage(postingStatusToastId);
                 this.view.setIsLoading(false);
             }
-        );
+    });
     }
 
     public checkButtonStatus(post: string, authToken: AuthToken | null, currentUser: User | null, isLoading: boolean) {

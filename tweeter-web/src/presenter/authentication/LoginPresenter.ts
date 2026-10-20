@@ -18,8 +18,8 @@ export class LoginPresenter extends Presenter<LoginView> {
     }
 
     public async login(alias: string, password: string, originalUrl?: string): Promise<string> {
-        return this.tryAndCatch<string>(
-            async () => {
+        return this.tryAndCatch<string>({
+            operation: async () => {
                 this.view.setIsLoading(true);
 
                 const [user, authToken] = await this.userService.login(alias, password);
@@ -31,7 +31,11 @@ export class LoginPresenter extends Presenter<LoginView> {
                 } else {
                     return `/feed/${user.alias}`;
                 }
-            }, "log user in", async () => "", async () => this.view.setIsLoading(false)
+            },
+            operationDescription: "log user in",
+            failureOperation: async () => "",
+            finalOperation: async () => this.view.setIsLoading(false)
+        }
         )
     }
 

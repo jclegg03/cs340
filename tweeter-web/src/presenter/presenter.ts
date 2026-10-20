@@ -14,12 +14,24 @@ export interface LoadingView extends View {
     setIsLoading: (isLoading: boolean) => void
 }
 
-export interface AllMessageView extends MessageDeletionView, MessageView {}
+export interface AllMessageView extends MessageDeletionView, MessageView { }
+
+interface TryAndCatchContext<T> {
+    operation: () => Promise<T>;
+    operationDescription: string;
+    failureOperation?: () => Promise<T>;
+    finalOperation?: () => Promise<void>;
+}
 
 export abstract class Presenter<T extends View> {
     protected constructor(private _view: T) { }
-    protected async tryAndCatch<T>(operation: () => Promise<T>, operationDescription: string, failureOperation: () => Promise<T> = async () => undefined as T,
-        finalOperation: () => Promise<void> = async () => {}): Promise<T> {
+    protected async tryAndCatch<T>(context: TryAndCatchContext<T>): Promise<T> {
+        const {
+            operation,
+            operationDescription, 
+            failureOperation = async () => undefined as T, 
+            finalOperation  = async () => { }
+        } = context;
         try {
             return await operation();
         } catch (error) {
