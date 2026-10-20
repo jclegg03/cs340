@@ -15,10 +15,10 @@ import StatusItemScroller from "./components/mainLayout/StatusItemScroller";
 import { useUserInfo } from "./components/userInfo/UserInfoHooks";
 import { FolloweePresenter } from "./presenter/mainLayout/userItem/FolloweePresenter";
 import { FollowerPresenter } from "./presenter/mainLayout/userItem/FollowerPresenter";
-import { UserItemView } from "./presenter/mainLayout/userItem/UserItemPresenter";
 import { FeedPresenter } from "./presenter/mainLayout/statusItem/FeedPresenter";
-import { StatusItemView } from "./presenter/mainLayout/statusItem/StatusItemPresenter";
 import { StoryPresenter } from "./presenter/mainLayout/statusItem/StoryPresenter";
+import { ItemView } from "./presenter/mainLayout/ItemPresenter";
+import { Status, User } from "tweeter-shared";
 
 const App = () => {
   const { currentUser, authToken } = useUserInfo();
@@ -52,14 +52,14 @@ const AuthenticatedRoutes = () => {
           <StatusItemScroller
             key={`feed-${displayedUser!.alias}`}
             featureUrl="/feed"
-            presenterFactory={(listener: StatusItemView) => new FeedPresenter(listener)}
+            presenterFactory={(listener: ItemView<Status>) => new FeedPresenter(listener)}
           />
         } />
         <Route path="story/:displayedUser" element={
           <StatusItemScroller
             key={`story-${displayedUser!.alias}`}
             featureUrl="/story"
-            presenterFactory={(listener: StatusItemView) => new StoryPresenter(listener)}
+            presenterFactory={(listener: ItemView<Status>) => new StoryPresenter(listener)}
           />
         } />
         <Route
@@ -68,8 +68,8 @@ const AuthenticatedRoutes = () => {
             <UserItemScroller
               key={`folowees-${displayedUser!.alias}`}
               featureUrl="/followees"
-              presenterFactory={(listener: UserItemView) => new FolloweePresenter(listener)}
-            />
+              presenterFactory={(listener: ItemView<User>) => new FolloweePresenter(listener)}
+          />
           } />
         <Route
           path="followers/:displayedUser"
@@ -77,7 +77,7 @@ const AuthenticatedRoutes = () => {
             <UserItemScroller
               key={`folowers-${displayedUser!.alias}`}
               featureUrl="/followers"
-              presenterFactory={(listener: UserItemView) => new FollowerPresenter(listener)}
+              presenterFactory={(listener: ItemView<User>) => new FollowerPresenter(listener)}
             />
           } />
         <Route path="logout" element={<Navigate to="/login" />} />

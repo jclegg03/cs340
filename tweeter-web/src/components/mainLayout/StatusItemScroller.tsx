@@ -5,11 +5,12 @@ import { useParams } from "react-router-dom";
 import StatusItem from "../statusItem/StatusItem";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo, useUserInfoActions } from "../userInfo/UserInfoHooks";
-import { StatusItemPresenter, StatusItemView } from "../../presenter/mainLayout/statusItem/StatusItemPresenter";
+import { StatusItemPresenter } from "../../presenter/mainLayout/statusItem/StatusItemPresenter";
+import { ItemView } from "../../presenter/mainLayout/ItemPresenter";
 
 interface Props {
   featureUrl: string,
-  presenterFactory: (listener: StatusItemView) => StatusItemPresenter
+  presenterFactory: (listener: ItemView<Status>) => StatusItemPresenter
 }
 
 const StatusItemScroller = (props: Props) => {
