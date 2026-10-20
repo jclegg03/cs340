@@ -1,40 +1,38 @@
 import { AuthToken, User } from "tweeter-shared";
 import { UserService } from "../../model.service/UserService";
+import { LoadingView, Presenter } from "../presenter";
 
-export interface View {
-    setIsLoading: (isLoading: boolean) => void,
-    updateUserInfo: (currentUser: User, displayedUser: User | null, authToken: AuthToken, remember: boolean) => void,
-    displayErrorMessage: (message: string, bootstrapClasses?: string | undefined) => string
+export interface LoginView extends LoadingView {
+    updateUserInfo: (currentUser: User, displayedUser: User | null, authToken: AuthToken, remember: boolean) => void
 }
 
-export class LoginPresenter {
+export class LoginPresenter extends Presenter<LoginView> {
     private userService = new UserService();
     private _rememberMe = false;
-    constructor(private view: View) { }
+    constructor(view: LoginView) {
+        super(view);
+    }
 
     public checkSubmitButtonStatus(alias: string, password: string): boolean {
         return !alias || !password;
     }
 
     public async login(alias: string, password: string, originalUrl?: string): Promise<string> {
-        try {
-            this.view.setIsLoading(true);
+        return this.tryAndCatch<string>(
+            async () => {
+                this.view.setIsLoading(true);
 
-            const [user, authToken] = await this.userService.login(alias, password);
+                const [user, authToken] = await this.userService.login(alias, password);
 
-            this.view.updateUserInfo(user, user, authToken, this.rememberMe);
+                this.view.updateUserInfo(user, user, authToken, this.rememberMe);
 
-            if (!!originalUrl) {
-                return originalUrl;
-            } else {
-                return`/feed/${user.alias}`;
-            }
-        } catch (error) {
-            this.view.displayErrorMessage(`Failed to log user in because of exception: ${error}`);
-        } finally {
-            this.view.setIsLoading(false);
-        }
-        return "";
+                if (!!originalUrl) {
+                    return originalUrl;
+                } else {
+                    return `/feed/${user.alias}`;
+                }
+            }, "log user in", async () => "", async () => this.view.setIsLoading(false)
+        )
     }
 
     public get rememberMe() {
