@@ -19,35 +19,24 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
         currentUser: User,
         displayedUser: User,
     ) {
-        await this.tryAndCatch<void>({
-            operation: async () => {
-                if (currentUser === displayedUser) {
-                    this.view.setIsFollower(false);
-                } else {
-                    this.view.setIsFollower(
-                        await this.followService.getIsFollowerStatus(authToken, currentUser, displayedUser),
-                    );
-                }
-            },
-            operationDescription: "determine follower status"
-        });
+        await this.doFollowServiceOperation(async () => currentUser === displayedUser ? false : this.followService.getIsFollowerStatus(authToken, currentUser, displayedUser), this.view.setIsFollower, "determine follower status");
     }
 
     public async setNumbFollowees(
         authToken: AuthToken,
         displayedUser: User,
     ) {
-        await this.setFollowerCounts(() => this.followService.getFolloweeCount(authToken, displayedUser), this.view.setFolloweeCount, "followees count");
+        await this.doFollowServiceOperation(() => this.followService.getFolloweeCount(authToken, displayedUser), this.view.setFolloweeCount, "followees count");
     }
 
     public async setNumbFollowers(
         authToken: AuthToken,
         displayedUser: User,
     ) {
-        await this.setFollowerCounts(() => this.followService.getFollowerCount(authToken, displayedUser), this.view.setFollowerCount, "get followers count");
+        await this.doFollowServiceOperation(() => this.followService.getFollowerCount(authToken, displayedUser), this.view.setFollowerCount, "get followers count");
     }
 
-    private async setFollowerCounts(serviceMethod: () => Promise<number>, viewMethod: (num: number) => void, description: string) {
+    private async doFollowServiceOperation<T>(serviceMethod: () => Promise<T>, viewMethod: (num: T) => void, description: string) {
         await this.tryAndCatch({
             operation: async () => viewMethod(await serviceMethod()),
             operationDescription: description
