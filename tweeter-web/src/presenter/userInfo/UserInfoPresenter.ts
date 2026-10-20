@@ -55,27 +55,29 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
     }
 
     public async followUser(authToken: AuthToken, user: User) {
-        await this.followOperation(user, async () => await this.followService.follow(authToken, user));
+        await this.followOperation(user, async () => await this.followService.follow(authToken, user), "follow", true);
     }
 
     public async unfollowUser(authToken: AuthToken, user: User) {
-        await this.followOperation(user, async () => this.followService.unfollow(authToken, user));
+        await this.followOperation(user, async () => this.followService.unfollow(authToken, user), "unfollow", false);
     }
 
-    private async followOperation(user: User, serviceFunction: () => Promise<[number, number]>) {
+    private async followOperation(user: User, serviceFunction: () => Promise<[number, number]>,
+        operationName: string, isFollower: boolean
+) {
         var toastId = "";
         await this.tryAndCatch({
             operation: async () => {
                 this.view.setIsLoading(true);
-                toastId = this.view.displayInfoMessage(`Unfollowing ${user.name}...`, 0);
+                toastId = this.view.displayInfoMessage(`${operationName}ing ${user.name}...`, 0);
 
                 const [followerCount, followeeCount] = await serviceFunction();
 
-                this.view.setIsFollower(false);
+                this.view.setIsFollower(isFollower);
                 this.view.setFollowerCount(followerCount);
                 this.view.setFolloweeCount(followeeCount);
             },
-            operationDescription: "unfollow user",
+            operationDescription: `${operationName} user`,
             finalOperation: async () => {
                 this.view.deleteMessage(toastId);
                 this.view.setIsLoading(false);
