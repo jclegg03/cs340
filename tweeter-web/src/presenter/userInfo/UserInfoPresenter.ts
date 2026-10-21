@@ -1,6 +1,7 @@
 import { AuthToken, User } from "tweeter-shared";
 import { FollowService } from "../../model.service/FollowService";
-import { LoadingView, MessageView, Presenter } from "../presenter";
+import { LoadingView, MessageView } from "../presenter";
+import { LoadingPresenter } from "../LoadingPresenter";
 
 export interface UserInfoView extends LoadingView, MessageView {
     setIsFollower: (isFollower: boolean) => void,
@@ -8,7 +9,7 @@ export interface UserInfoView extends LoadingView, MessageView {
     setFollowerCount: (count: number) => void
 }
 
-export class UserInfoPresenter extends Presenter<UserInfoView> {
+export class UserInfoPresenter extends LoadingPresenter<UserInfoView> {
     private followService = new FollowService()
 
     public async setIsFollowerStatus(
@@ -52,9 +53,8 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
         operationName: string, isFollower: boolean
 ) {
         var toastId = "";
-        await this.tryAndCatch({
+        await this.tryAndCatchWithLoading({
             operation: async () => {
-                this.view.setIsLoading(true);
                 toastId = this.view.displayInfoMessage(`${operationName}ing ${user.name}...`, 0);
 
                 const [followerCount, followeeCount] = await serviceFunction();
@@ -66,7 +66,6 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
             operationDescription: `${operationName} user`,
             finalOperation: async () => {
                 this.view.deleteMessage(toastId);
-                this.view.setIsLoading(false);
             }
         });
     }

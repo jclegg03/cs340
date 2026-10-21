@@ -11,7 +11,7 @@ export interface LoadingView extends View {
     setIsLoading: (isLoading: boolean) => void
 }
 
-interface TryAndCatchContext<T> {
+export interface TryAndCatchContext<T> {
     operation: () => Promise<T>;
     operationDescription: string;
     failureOperation?: () => Promise<T>;
