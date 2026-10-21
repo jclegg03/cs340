@@ -33,26 +33,6 @@ export class RegisterPresenter extends AuthPresenter<RegisterView> {
             new Uint8Array(this.imageBytes),
             this.imageFileExtension
         ), "register user", null, (user) => user.alias);
-        return await this.tryAndCatch<string | null>({
-            operation: async () => {
-                this.view.setIsLoading(true);
-
-                const [user, authToken] = await this.userService.register(
-                    this.firstName,
-                    this.lastName,
-                    this.alias,
-                    this.password,
-                    new Uint8Array(this.imageBytes),
-                    this.imageFileExtension
-                );
-
-                this.view.updateUserInfo(user, user, authToken, this.rememberMe);
-                return user.alias;
-            },
-            operationDescription: "register user",
-            failureOperation: async () => null,
-            finalOperation: async () => this.view.setIsLoading(false)
-        });
     }
 
     public handleImageFile(file: File | undefined) {
