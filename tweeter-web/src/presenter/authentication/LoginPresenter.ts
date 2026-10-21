@@ -1,12 +1,6 @@
-import { AuthToken, User } from "tweeter-shared";
-import { LoadingView } from "../presenter";
-import { AuthPresenter } from "./AuthPresenter";
+import { AuthPresenter, AuthView } from "./AuthPresenter";
 
-export interface LoginView extends LoadingView {
-    updateUserInfo: (currentUser: User, displayedUser: User | null, authToken: AuthToken, remember: boolean) => void
-}
-
-export class LoginPresenter extends AuthPresenter {
+export class LoginPresenter extends AuthPresenter<AuthView> {
 
     public checkSubmitButtonStatus(alias: string, password: string): boolean {
         return !alias || !password;

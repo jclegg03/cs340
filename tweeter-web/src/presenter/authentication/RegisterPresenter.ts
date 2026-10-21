@@ -1,20 +1,15 @@
-import { AuthToken, User } from "tweeter-shared";
-import { UserService } from "../../model.service/UserService";
 import { Buffer } from 'buffer';
-import { LoadingView, Presenter } from "../presenter";
+import { AuthPresenter, AuthView } from "./AuthPresenter";
 
-export interface RegisterView extends LoadingView {
-    setImageUrl: (url: string) => void,
-    updateUserInfo: (currentUser: User, displayedUser: User | null, authToken: AuthToken, remember: boolean) => void
+export interface RegisterView extends AuthView {
+    setImageUrl: (url: string) => void
 }
 
-export class RegisterPresenter extends Presenter<RegisterView> {
-    private userService = new UserService();
+export class RegisterPresenter extends AuthPresenter<RegisterView> {
     private _firstName = "";
     private _lastName = "";
     private _alias = "";
     private _password = "";
-    private _rememberMe = false;
     private imageFileExtension = "";
     private imageBytes = new Uint8Array();
 
@@ -30,6 +25,14 @@ export class RegisterPresenter extends Presenter<RegisterView> {
     }
 
     public async register(): Promise<string | null> {
+        return await this.serviceAction(() => this.userService.register(
+            this.firstName,
+            this.lastName,
+            this.alias,
+            this.password,
+            new Uint8Array(this.imageBytes),
+            this.imageFileExtension
+        ), "register user", null, (user) => user.alias);
         return await this.tryAndCatch<string | null>({
             operation: async () => {
                 this.view.setIsLoading(true);
@@ -112,12 +115,5 @@ export class RegisterPresenter extends Presenter<RegisterView> {
     }
     public set password(password) {
         this._password = password;
-    }
-
-    public get rememberMe() {
-        return this._rememberMe;
-    }
-    public set rememberMe(rememberMe) {
-        this._rememberMe = rememberMe;
     }
 }

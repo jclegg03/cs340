@@ -6,7 +6,7 @@ export interface AuthView extends LoadingView {
     updateUserInfo: (currentUser: User, displayedUser: User | null, authToken: AuthToken, remember: boolean) => void
 }
 
-export abstract class AuthPresenter extends Presenter<AuthView> {
+export abstract class AuthPresenter<T extends AuthView> extends Presenter<T> {
     private _userService = new UserService();
     private _rememberMe = false;
 
