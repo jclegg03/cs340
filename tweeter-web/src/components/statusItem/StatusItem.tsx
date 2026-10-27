@@ -4,7 +4,6 @@ import Post from "./Post";
 import { useNavigateToUser } from "../UseNavigateToUser";
 
 interface Props {
-    index: number,
     item: Status,
     featurePath: string
 }
@@ -13,7 +12,6 @@ const StatusItem = (props: Props) => {
 
     return (
         <div
-            key={props.index}
             className="row mb-3 mx-0 px-0 border rounded bg-white"
           >
             <div className="col bg-light mx-0 px-0">
