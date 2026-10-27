@@ -3,7 +3,7 @@ import { AuthToken } from "tweeter-shared";
 import { verify, mock, instance, when, spy, anything, capture } from "@typestrong/ts-mockito";
 import { UserService } from "../../src/model.service/UserService";
 
-describe("", () => {
+describe("AppNavbarPresenter tests", () => {
     let mockAppNavbarPresenterView: AppNavbarView;
     let appNavbarPresenter: AppNavbarPresenter;
     let mockService: UserService;
