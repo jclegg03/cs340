@@ -15,19 +15,25 @@ const AppNavbar = () => {
   const { displayErrorMessage, displayInfoMessage, deleteMessage } = useMessageActions();
   const presenterRef = useRef<AppNavbarPresenter | null>(null);
 
+
+  const navigateToLogin = () => {
+    navigate("/login")
+  }
+
   if (!presenterRef.current) {
     presenterRef.current = new AppNavbarPresenter({
       displayInfoMessage: displayInfoMessage,
       deleteMessage: deleteMessage,
       displayErrorMessage: displayErrorMessage,
-      clearUserInfo: clearUserInfo
+      clearUserInfo: clearUserInfo,
+      navigateToLogin: navigateToLogin
     });
   }
 
   const logout = async () => {
-    const loggedOut = await presenterRef.current!.logOut(authToken!);
-    if(loggedOut) navigate("/login");
+    await presenterRef.current!.logOut(authToken!);
   }
+
 
   return (
     <Navbar
