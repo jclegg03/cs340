@@ -39,19 +39,44 @@ describe("PostStatusPresenter tests", () => {
         expect(status).toEqual(new Status("BLaH", currentUser, status.timestamp));
     });
 
-    it("tells the view to clear the info message that was displayed previously on success", async () => {
-        await presenter.submitPost("BLaH", currentUser, authToken);
+    describe("success tests", () => {
+        it("tells the view to clear the info message that was displayed previously", async () => {
+            await presenter.submitPost("BLaH", currentUser, authToken);
 
-        verify(view.deleteMessage("123")).once();
+            verify(view.deleteMessage("123")).once();
+        });
+
+        it("tells the view to clear the post", () => {
+            presenter.submitPost("BLaH", currentUser, authToken).then(() => verify(view.setPost("")).once());
+        });
+
+        it("tells the view to displayy a status posted message", () => {
+            presenter.submitPost("BLaH", currentUser, authToken).then(() => verify(view.displayInfoMessage("Status posted!", 2000)));
+        });
     });
 
-    it("tells the view to clear the post on success", () => {
-        presenter.submitPost("BLaH", currentUser, authToken).then(() => verify(view.setPost("")).once());
-    });
+    describe("failure tests", () => {
+        const error = new Error("Blah");
+        beforeEach(() => {
+            when(service.postStatus(anything(), anything())).thenThrow(error);
+        })
+        it("tells the view to clear the info message.", async () => {
+            await presenter.submitPost("BLaH", currentUser, authToken);
 
-    it("tells the view to displayy a status posted message on success", () => {
-        presenter.submitPost("BLaH", currentUser, authToken).then(() => verify(view.displayInfoMessage("Status posted!", 2000)));
-    });
+            verify(view.deleteMessage("123")).once();
+        });
 
-    
+        it("tells the view to display an error message.", () => {
+            presenter.submitPost("BLaH", currentUser, authToken).then(() => {
+                verify(view.displayErrorMessage("Failed to post the status because of exception: Blah")).once();
+            });
+        });
+
+        it("does not tell it to clear the post or display a status posted message.", () => {
+            presenter.submitPost("BLaH", currentUser, authToken).then(() => {
+                verify(view.setPost(anything())).never();
+            });
+        })
+    })
+
 })
