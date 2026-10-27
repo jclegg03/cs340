@@ -10,6 +10,7 @@ import { LoginPresenter } from "../../../presenter/authentication/LoginPresenter
 
 interface Props {
   originalUrl?: string;
+  presenter?: LoginPresenter;
 }
 
 const Login = (props: Props) => {
@@ -22,7 +23,7 @@ const Login = (props: Props) => {
   const { displayErrorMessage } = useMessageActions();
   const presenterRef = useRef<LoginPresenter | null>(null);
   if(!presenterRef.current) {
-    presenterRef.current = new LoginPresenter({setIsLoading, updateUserInfo, displayErrorMessage});
+    presenterRef.current = props.presenter ?? new LoginPresenter({setIsLoading, updateUserInfo, displayErrorMessage});
   }
 
   const checkSubmitButtonStatus = () => presenterRef.current!.checkSubmitButtonStatus(alias, password);

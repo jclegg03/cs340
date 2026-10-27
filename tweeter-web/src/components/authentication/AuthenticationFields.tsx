@@ -14,6 +14,7 @@ const AuthenticationFields = (props: Props) => {
             className="form-control"
             size={50}
             id="aliasInput"
+            aria-label="alias"
             placeholder="name@example.com"
             onKeyDown={props.onKeyDown}
             onChange={(event) => props.setAlias(event.target.value)}
@@ -23,6 +24,7 @@ const AuthenticationFields = (props: Props) => {
         <div className={`form-floating ${props.passwordIsFormBottom ? "mb-3" : ""}`}>
           <input
             type="password"
+            aria-label="password"
             className={`form-control ${props.passwordIsFormBottom ? "bottom" : ""}`}
             id="passwordInput"
             placeholder="Password"
