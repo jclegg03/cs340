@@ -1,4 +1,4 @@
-import { when, instance, mock, spy, verify, capture } from "@typestrong/ts-mockito";
+import { when, instance, mock, spy, verify, capture, anything } from "@typestrong/ts-mockito";
 import { PostStatusPresenter, PostStatusView } from "../../src/presenter/postStatus/PostStatusPresenter";
 import { AuthToken, Status, User } from "tweeter-shared";
 import { StatusService } from "../../src/model.service/StatusService";
@@ -14,6 +14,7 @@ describe("PostStatusPresenter tests", () => {
 
     beforeEach(() => {
         view = mock<PostStatusView>();
+        when(view.displayInfoMessage(anything(), anything())).thenReturn("123");
         const mockedView = instance(view);
 
         const presenterSpy = spy(new PostStatusPresenter(mockedView));
@@ -25,11 +26,9 @@ describe("PostStatusPresenter tests", () => {
     });
 
     it("tells the view to display a posting status message.", async () => {
-       const postPromise = presenter.submitPost("Blah", currentUser, authToken);
+        presenter.submitPost("Blah", currentUser, authToken);
 
         verify(view.displayInfoMessage("Posting status...", 0)).once();
-        await postPromise;
-        verify(view.displayInfoMessage("Status posted!", 2000)).once();
     });
 
     it("calls postStatus on the post status service with the correct status string and auth token.", async () => {
@@ -39,4 +38,20 @@ describe("PostStatusPresenter tests", () => {
         expect(auth).toEqual(authToken);
         expect(status).toEqual(new Status("BLaH", currentUser, status.timestamp));
     });
+
+    it("tells the view to clear the info message that was displayed previously on success", async () => {
+        await presenter.submitPost("BLaH", currentUser, authToken);
+
+        verify(view.deleteMessage("123")).once();
+    });
+
+    it("tells the view to clear the post on success", () => {
+        presenter.submitPost("BLaH", currentUser, authToken).then(() => verify(view.setPost("")).once());
+    });
+
+    it("tells the view to displayy a status posted message on success", () => {
+        presenter.submitPost("BLaH", currentUser, authToken).then(() => verify(view.displayInfoMessage("Status posted!", 2000)));
+    });
+
+    
 })
