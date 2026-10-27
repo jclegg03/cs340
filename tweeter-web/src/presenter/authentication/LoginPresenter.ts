@@ -8,7 +8,7 @@ export class LoginPresenter extends AuthPresenter<AuthView> {
 
     public async login(alias: string, password: string, originalUrl?: string): Promise<string> {
         return this.serviceAction(() => this.userService.login(alias, password), "log user in", "", (user) => {
-            if (!!originalUrl) {
+            if (!!originalUrl && originalUrl !== "/") {
                     return originalUrl;
                 } else {
                     return `/feed/${user.alias}`;
