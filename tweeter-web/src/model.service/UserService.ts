@@ -50,4 +50,10 @@ export class UserService implements Service {
 
         return [user, FakeData.instance.authToken];
     };
+
+    public async logout(authToken: AuthToken): Promise<void> {
+        //TODO make this function useful
+        await new Promise((res) => setTimeout(res, 1000));
+        if(authToken) return;
+    }
 }
