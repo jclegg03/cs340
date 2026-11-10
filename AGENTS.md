@@ -2,7 +2,7 @@
 ## Project
 X (twitter) clone for class project. 
 ## Structure
-- Backend APIs located in /tweeter-api
+- Backend APIs located in /tweeter-server
 - Frontend code in /tweeter-web
 - Shared code in /tweeter-shared
 ## AI attribution
