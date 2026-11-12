@@ -16,8 +16,8 @@ not exist. Use this format, with today's date:
 Leave the Review line as TODO. I fill it in after I review the change.
 List every file you changed or created, including tests, and do not
 list anything you did not change.
-If a TypeScript file you created or changed does not already start
-with this line, add it as the first line:
+If a file you created or changed does not already start
+with a commont like this line, add it as the first line using the appropiate comment syntax:
 // AI-assisted: see AI-ATTRIBUTION.md
 ## Off-limits
 - Do not add npm dependencies without asking
