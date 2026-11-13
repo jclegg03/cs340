@@ -1,0 +1,9 @@
+# AI-assisted: see AI-ATTRIBUTION.md
+# Terraform local state and provider cache (keep .terraform.lock.hcl committed)
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Lambda deployment zip built by terraform
+lambda.zip
