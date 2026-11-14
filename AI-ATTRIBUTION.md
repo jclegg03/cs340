@@ -18,3 +18,7 @@
 - Task: Update the lambdas so they have access to and depend on the shared module, by creating a Lambda layer.
 - Review: Added the script to build the layer and the tf to deploy it.
 
+## 2026-11-14: tweeter-shared/src/model/dto/UserDto.ts (new file), tweeter-shared/src/model/dto/AuthTokenDto.ts (new file), tweeter-shared/src/model/domain/User.ts, tweeter-shared/src/model/domain/AuthToken.ts, tweeter-shared/src/index.ts, tweeter-server/src/login.ts, tweeter-web/src/model.service/UserService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Set up DTOs for User and AuthToken so the login lambda returns plain field names (alias, firstName, ...) instead of the classes' private _-prefixed fields.
+- Review: It did well with setting up the DTOs. I will add another prompt to have it add the response object type to make it easier to typecheck the frontend and backend in another prompt.

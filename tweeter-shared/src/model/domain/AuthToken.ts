@@ -1,3 +1,5 @@
+// AI-assisted: see AI-ATTRIBUTION.md
+import { AuthTokenDto } from "../dto/AuthTokenDto";
 import { v4 as uuid } from "uuid";
 export class AuthToken {
   private _token: string;
@@ -57,6 +59,19 @@ export class AuthToken {
     } else {
       return null;
     }
+  }
+
+  public get dto(): AuthTokenDto {
+    return {
+      token: this.token,
+      timestamp: this.timestamp,
+    };
+  }
+
+  public static fromDto(
+    dto: AuthTokenDto | null | undefined
+  ): AuthToken | null {
+    return dto ? new AuthToken(dto.token, dto.timestamp) : null;
   }
 
   public toJson(): string {

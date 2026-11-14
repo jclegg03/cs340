@@ -1,4 +1,11 @@
-import { AuthToken, User, FakeData } from "tweeter-shared";
+// AI-assisted: see AI-ATTRIBUTION.md
+import {
+    AuthToken,
+    AuthTokenDto,
+    User,
+    UserDto,
+    FakeData,
+} from "tweeter-shared";
 import { Buffer } from "buffer";
 import { Service } from "./Service";
 
@@ -26,8 +33,17 @@ export class UserService extends Service {
             },
             body: JSON.stringify({ alias, password }),
         });
-        const data = await res.json();
-        return [data.user, data.authToken];
+        // The server sends DTOs (plain data); turn them back into real classes.
+        const data: { user: UserDto | null; authToken: AuthTokenDto | null } =
+            await res.json();
+        const user = User.fromDto(data.user);
+        const authToken = AuthToken.fromDto(data.authToken);
+
+        if (user === null || authToken === null) {
+            throw new Error("Invalid alias or password");
+        }
+
+        return [user, authToken];
         // TODO: Replace with the result of calling the server
         // const user = FakeData.instance.firstUser;
 
