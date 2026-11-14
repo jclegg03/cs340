@@ -1,3 +1,4 @@
+// AI-assisted: see AI-ATTRIBUTION.md
 import { AuthToken } from "tweeter-shared";
 import { UserService } from "../../model.service/UserService";
 import { Presenter, MessageView } from "../presenter";
@@ -34,7 +35,6 @@ export class AppNavbarPresenter extends Presenter<AppNavbarView> {
   };
 
   private async logout(authToken: AuthToken): Promise<void> {
-    // Pause so we can see the logging out message. Delete when the call to the server is implemented.
     await this.userService.logout(authToken);
   };
 }

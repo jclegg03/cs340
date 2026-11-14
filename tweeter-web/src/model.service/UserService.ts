@@ -1,5 +1,12 @@
 // AI-assisted: see AI-ATTRIBUTION.md
-import { AuthToken, User, FakeData, LoginResponse } from "tweeter-shared";
+import {
+    AuthToken,
+    User,
+    FakeData,
+    LoginResponse,
+    LogoutRequest,
+    LogoutResponse,
+} from "tweeter-shared";
 import { Buffer } from "buffer";
 import { Service } from "./Service";
 
@@ -62,8 +69,18 @@ export class UserService extends Service {
     };
 
     public async logout(authToken: AuthToken): Promise<void> {
-        //TODO make this function useful
-        await new Promise((res) => setTimeout(res, 1000));
-        if(authToken) return;
+        const request: LogoutRequest = { authToken: authToken.dto };
+        const res = await fetch(`${this.apiUrl}/logout`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(request),
+        });
+        const data: LogoutResponse = await res.json();
+
+        if (!res.ok || !data.success) {
+            throw new Error("Logout failed");
+        }
     }
 }

@@ -32,3 +32,8 @@
 - Tool: Claude Code
 - Task: Create the logout API on the backend, without wiring it up to the frontend yet.
 - Review: added logout response and request types. Also add code to create the lambda
+
+## 2026-11-14: tweeter-web/src/model.service/UserService.ts, tweeter-web/src/presenter/appNavbar/AppNavbarPresenter.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Wire the frontend logout up to the new backend logout API.
+- Review: Looks good. Full stack test worked.
