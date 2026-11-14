@@ -13,3 +13,9 @@ variable "api_resource" {
     type= map(object({pathPart = string, httpMethod = string, lambda = string}))
     default = {}
 }
+
+variable "allowed_origins" {
+    # Browser origins allowed to call the API (scheme + host + port, no trailing slash).
+    type = list(string)
+    default = ["http://localhost:5173"]
+}
