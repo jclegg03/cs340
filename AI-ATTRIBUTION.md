@@ -37,3 +37,8 @@
 - Tool: Claude Code
 - Task: Wire the frontend logout up to the new backend logout API.
 - Review: Looks good. Full stack test worked.
+
+## 2026-11-14: tweeter-shared/src/model/net/request/LoginRequest.ts (new file), tweeter-shared/src/index.ts, tweeter-server/src/login.ts, tweeter-web/src/model.service/UserService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Update the frontend API calls to use the generic callApi function, adding a LoginRequest type to the shared module.
+- Review: the deduplication looks clean

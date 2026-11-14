@@ -10,6 +10,7 @@ export type { UserDto } from "./model/dto/UserDto";
 export type { AuthTokenDto } from "./model/dto/AuthTokenDto";
 
 // Request/response bodies for the server API
+export type { LoginRequest } from "./model/net/request/LoginRequest";
 export type { LogoutRequest } from "./model/net/request/LogoutRequest";
 export type { LoginResponse } from "./model/net/response/LoginResponse";
 export type { LogoutResponse } from "./model/net/response/LogoutResponse";

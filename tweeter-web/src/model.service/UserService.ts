@@ -3,6 +3,7 @@ import {
     AuthToken,
     User,
     FakeData,
+    LoginRequest,
     LoginResponse,
     LogoutRequest,
     LogoutResponse,
@@ -27,15 +28,12 @@ export class UserService extends Service {
         alias: string,
         password: string
     ): Promise<[User, AuthToken]> {
-        const res = await fetch(`${this.apiUrl}/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ alias, password }),
-        });
+        const data = await this.callApi<LoginResponse, LoginRequest>(
+            "login",
+            "POST",
+            { alias, password }
+        );
         // The server sends DTOs (plain data); turn them back into real classes.
-        const data: LoginResponse = await res.json();
         const user = User.fromDto(data.user);
         const authToken = AuthToken.fromDto(data.authToken);
 
@@ -69,17 +67,13 @@ export class UserService extends Service {
     };
 
     public async logout(authToken: AuthToken): Promise<void> {
-        const request: LogoutRequest = { authToken: authToken.dto };
-        const res = await fetch(`${this.apiUrl}/logout`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(request),
-        });
-        const data: LogoutResponse = await res.json();
+        const data = await this.callApi<LogoutResponse, LogoutRequest>(
+            "logout",
+            "POST",
+            { authToken: authToken.dto }
+        );
 
-        if (!res.ok || !data.success) {
+        if (!data.success) {
             throw new Error("Logout failed");
         }
     }
