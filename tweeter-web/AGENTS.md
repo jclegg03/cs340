@@ -8,4 +8,4 @@ Front-end typescript, node.js, and react.
 ## Conventions
 - Do not use the `any` type
 ## Off-limits
-- Do not edit files in src/ (the build produces them)
+- Do not edit files in dist/ (the build produces them)
