@@ -1,5 +1,7 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 
+import { AuthToken, User, FakeData } from "tweeter-shared";
+
 // Basic test endpoint: API Gateway passes the JSON request body in as `request`
 // and returns whatever this function returns as the response body.
 interface TestLoginRequest {
@@ -7,19 +9,19 @@ interface TestLoginRequest {
     password?: string;
 }
 
-interface TestLoginResponse {
-    success: boolean;
-    message: string;
-    alias: string | null;
+interface LoginResponse {
+    user: User | null;
+    authToken: AuthToken;
 }
 
 export const handler = async (
     request: TestLoginRequest
-): Promise<TestLoginResponse> => {
-    console.log("Login function called");
+): Promise<LoginResponse> => {
+    const user = FakeData.instance.firstUser;
+    const authToken = FakeData.instance.authToken;
+
     return {
-        success: true,
-        message: "Test login endpoint reached",
-        alias: request?.alias ?? null,
+        user,
+        authToken,
     };
 };

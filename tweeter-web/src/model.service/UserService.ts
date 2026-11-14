@@ -19,14 +19,23 @@ export class UserService extends Service {
         alias: string,
         password: string
     ): Promise<[User, AuthToken]> {
+        const res = await fetch(`${this.apiUrl}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ alias, password }),
+        });
+        const data = await res.json();
+        return [data.user, data.authToken];
         // TODO: Replace with the result of calling the server
-        const user = FakeData.instance.firstUser;
+        // const user = FakeData.instance.firstUser;
 
-        if (user === null) {
-            throw new Error("Invalid alias or password");
-        }
+        // if (user === null) {
+        //     throw new Error("Invalid alias or password");
+        // }
 
-        return [user, FakeData.instance.authToken];
+        // return [user, FakeData.instance.authToken];
     }
 
     public async register(
