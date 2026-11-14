@@ -27,3 +27,8 @@
 - Tool: Claude Code
 - Task: Create a LoginResponse type in the shared module so the login lambda must return that shape and the frontend reads the response as it.
 - Review: Everything continues to work and the code now has less duplication due to that interface.
+
+## 2026-11-14: tweeter-server/src/logout.ts (new file), tweeter-server/api.auto.tfvars, tweeter-shared/src/model/net/request/LogoutRequest.ts (new file), tweeter-shared/src/model/net/response/LogoutResponse.ts (new file), tweeter-shared/src/index.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the logout API on the backend, without wiring it up to the frontend yet.
+- Review: added logout response and request types. Also add code to create the lambda
