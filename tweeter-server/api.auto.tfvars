@@ -3,6 +3,7 @@ lambda = {
     login = { handler = "login.handler" }
     logout = { handler = "logout.handler" }
     register = { handler = "register.handler" }
+    getUser = { handler = "getUser.handler" }
 }
 
 allowed_origins = [
@@ -13,4 +14,5 @@ api_resource = {
     login = { pathPart = "login", httpMethod = "POST", lambda = "login" }
     logout = { pathPart = "logout", httpMethod = "POST", lambda = "logout" }
     register = { pathPart = "register", httpMethod = "POST", lambda = "register" }
+    getUser = { pathPart = "getUser", httpMethod = "POST", lambda = "getUser" }
 }

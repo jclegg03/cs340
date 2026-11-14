@@ -2,7 +2,8 @@
 import {
     AuthToken,
     User,
-    FakeData,
+    GetUserRequest,
+    GetUserResponse,
     LoginRequest,
     LoginResponse,
     LogoutRequest,
@@ -18,8 +19,13 @@ export class UserService extends Service {
         authToken: AuthToken,
         alias: string
     ): Promise<User | null> {
-        // TODO: Replace with the result of calling server
-        return FakeData.instance.findUserByAlias(alias);
+        const data = await this.callApi<GetUserResponse, GetUserRequest>(
+            "getUser",
+            "POST",
+            { authToken: authToken.dto, alias }
+        );
+        // null when the server has no user with this alias.
+        return User.fromDto(data.user);
     }
 
     public updateUserInfo() { return null; }
