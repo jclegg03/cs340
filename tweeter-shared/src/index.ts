@@ -9,6 +9,9 @@ export { AuthToken } from "./model/domain/AuthToken";
 export type { UserDto } from "./model/dto/UserDto";
 export type { AuthTokenDto } from "./model/dto/AuthTokenDto";
 
+// Request/response bodies for the server API
+export type { LoginResponse } from "./model/net/response/LoginResponse";
+
 // All classes that should be avaialble to other modules need to exported here. export * does not work when 
 // uploading to lambda. Instead we have to list each export.
 export { FakeData } from "./util/FakeData";

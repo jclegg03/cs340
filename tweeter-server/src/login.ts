@@ -1,17 +1,12 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 
-import { AuthTokenDto, FakeData, UserDto } from "tweeter-shared";
+import { FakeData, LoginResponse } from "tweeter-shared";
 
 // Basic test endpoint: API Gateway passes the JSON request body in as `request`
 // and returns whatever this function returns as the response body.
 interface TestLoginRequest {
     alias?: string;
     password?: string;
-}
-
-interface LoginResponse {
-    user: UserDto | null;
-    authToken: AuthTokenDto;
 }
 
 export const handler = async (

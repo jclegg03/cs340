@@ -22,3 +22,8 @@
 - Tool: Claude Code
 - Task: Set up DTOs for User and AuthToken so the login lambda returns plain field names (alias, firstName, ...) instead of the classes' private _-prefixed fields.
 - Review: It did well with setting up the DTOs. I will add another prompt to have it add the response object type to make it easier to typecheck the frontend and backend in another prompt.
+
+## 2026-11-14: tweeter-shared/src/model/net/response/LoginResponse.ts (new file), tweeter-shared/src/index.ts, tweeter-server/src/login.ts, tweeter-web/src/model.service/UserService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create a LoginResponse type in the shared module so the login lambda must return that shape and the frontend reads the response as it.
+- Review: Everything continues to work and the code now has less duplication due to that interface.
