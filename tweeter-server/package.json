@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run compile",
+    "build": "npm run build:layer && npm run compile",
     "compile": "npm run clean && tsc",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "build:shared": "npm --prefix ../tweeter-shared run compile",
+    "build:layer": "npm run build:shared && node scripts/build-layer.mjs"
   },
   "keywords": [],
   "author": "",

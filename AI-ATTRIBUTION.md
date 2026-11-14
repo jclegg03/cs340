@@ -12,3 +12,9 @@
 - Tool: Claude Code
 - Task: Add CORS support with a configurable list of allowed origins so the web frontend can call the API.
 - Review: CORS is working now.
+
+## 2026-11-14: tweeter-server/main.tf, tweeter-server/package.json, tweeter-server/.gitignore, tweeter-server/scripts/build-layer.mjs (new file), AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Update the lambdas so they have access to and depend on the shared module, by creating a Lambda layer.
+- Review: Added the script to build the layer and the tf to deploy it.
+

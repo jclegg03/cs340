@@ -7,3 +7,7 @@ crash.log
 
 # Lambda deployment zip built by terraform
 lambda.zip
+
+# Lambda layer (tweeter-shared + runtime deps) built by scripts/build-layer.mjs
+layer/
+layer.zip

@@ -51,6 +51,23 @@ data "archive_file" "lambda_zip" {
     excludes = ["*.map", "*.d.ts"]
 }
 
+# Zips the layer folder (tweeter-shared + runtime npm deps) built by `npm run build`.
+# Lambda extracts it to /opt, so modules land in /opt/nodejs/node_modules, which
+# Node searches automatically.
+data "archive_file" "shared_layer_zip" {
+    type = "zip"
+    source_dir = "${path.module}/layer"
+    output_path = "${path.module}/layer.zip"
+    excludes = ["**/*.map"]
+}
+
+resource "aws_lambda_layer_version" "tweeter_shared_layer" {
+    layer_name = "tweeter-shared"
+    filename = data.archive_file.shared_layer_zip.output_path
+    source_code_hash = data.archive_file.shared_layer_zip.output_base64sha256
+    compatible_runtimes = ["nodejs22.x"]
+}
+
 resource "aws_lambda_function" "api_lambdas" {
     for_each = var.lambda
     function_name = "tweeter-${each.key}"
@@ -60,6 +77,10 @@ resource "aws_lambda_function" "api_lambdas" {
     runtime = "nodejs22.x"
     handler = each.value.handler
     timeout = 10
+    # Provides tweeter-shared at runtime. Referencing the layer's ARN also makes
+    # each lambda depend on it, so a changed layer is published first and the
+    # lambdas are updated to the new version.
+    layers = [aws_lambda_layer_version.tweeter_shared_layer.arn]
 }
 
 # ---------- API Gateway ----------
