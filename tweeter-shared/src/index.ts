@@ -12,8 +12,10 @@ export type { AuthTokenDto } from "./model/dto/AuthTokenDto";
 // Request/response bodies for the server API
 export type { LoginRequest } from "./model/net/request/LoginRequest";
 export type { LogoutRequest } from "./model/net/request/LogoutRequest";
+export type { RegisterRequest } from "./model/net/request/RegisterRequest";
 export type { LoginResponse } from "./model/net/response/LoginResponse";
 export type { LogoutResponse } from "./model/net/response/LogoutResponse";
+export type { RegisterResponse } from "./model/net/response/RegisterResponse";
 
 // All classes that should be avaialble to other modules need to exported here. export * does not work when 
 // uploading to lambda. Instead we have to list each export.

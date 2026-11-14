@@ -42,3 +42,8 @@
 - Tool: Claude Code
 - Task: Update the frontend API calls to use the generic callApi function, adding a LoginRequest type to the shared module.
 - Review: the deduplication looks clean
+
+## 2026-11-14: tweeter-shared/src/model/net/request/RegisterRequest.ts (new file), tweeter-shared/src/model/net/response/RegisterResponse.ts (new file), tweeter-shared/src/index.ts, tweeter-server/src/register.ts (new file), tweeter-server/api.auto.tfvars, tweeter-web/src/model.service/UserService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the register endpoint on the backend and wire it up to the frontend.
+- Review: Looks good, it appears it didn't fix the imports that are no longer used by the frontend. Actually, it is correct. We still need to make the getUser endpoint. E2E test worked.

@@ -7,6 +7,8 @@ import {
     LoginResponse,
     LogoutRequest,
     LogoutResponse,
+    RegisterRequest,
+    RegisterResponse,
 } from "tweeter-shared";
 import { Buffer } from "buffer";
 import { Service } from "./Service";
@@ -52,18 +54,31 @@ export class UserService extends Service {
         userImageBytes: Uint8Array,
         imageFileExtension: string
     ): Promise<[User, AuthToken]> {
-        // Not neded now, but will be needed when you make the request to the server in milestone 3
+        // Image bytes are sent as base64 so they can travel inside the JSON body.
         const imageStringBase64: string =
             Buffer.from(userImageBytes).toString("base64");
 
-        // TODO: Replace with the result of calling the server
-        const user = FakeData.instance.firstUser;
+        const data = await this.callApi<RegisterResponse, RegisterRequest>(
+            "register",
+            "POST",
+            {
+                firstName,
+                lastName,
+                alias,
+                password,
+                userImageBase64: imageStringBase64,
+                imageFileExtension,
+            }
+        );
+        // The server sends DTOs (plain data); turn them back into real classes.
+        const user = User.fromDto(data.user);
+        const authToken = AuthToken.fromDto(data.authToken);
 
-        if (user === null) {
+        if (user === null || authToken === null) {
             throw new Error("Invalid registration");
         }
 
-        return [user, FakeData.instance.authToken];
+        return [user, authToken];
     };
 
     public async logout(authToken: AuthToken): Promise<void> {
