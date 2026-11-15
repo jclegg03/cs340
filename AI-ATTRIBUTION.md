@@ -57,3 +57,8 @@
 - Tool: Claude Code
 - Task: Create the getFolloweeCount endpoint in the backend.
 - Review: Looks good, created the Req and res types, and does the same thing the frontend previously did.
+
+## 2026-11-15: tweeter-web/src/model.service/FollowService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Wire the frontend's FollowService.getFolloweeCount up to the new getFolloweeCount backend endpoint.
+- Review: Frontend wired up. E2E test passed.

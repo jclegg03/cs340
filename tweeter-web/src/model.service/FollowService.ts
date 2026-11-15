@@ -1,4 +1,11 @@
-import { AuthToken, User, FakeData } from "tweeter-shared";
+// AI-assisted: see AI-ATTRIBUTION.md
+import {
+    AuthToken,
+    User,
+    FakeData,
+    GetFolloweeCountRequest,
+    GetFolloweeCountResponse,
+} from "tweeter-shared";
 import { Service } from "./Service";
 
 export class FollowService extends Service {
@@ -35,8 +42,14 @@ export class FollowService extends Service {
         authToken: AuthToken,
         user: User,
     ): Promise<number> {
-        // TODO: Replace with the result of calling server
-        return FakeData.instance.getFolloweeCount(user.alias);
+        const data = await this.callApi<
+            GetFolloweeCountResponse,
+            GetFolloweeCountRequest
+        >("getFolloweeCount", "POST", {
+            authToken: authToken.dto,
+            user: user.dto,
+        });
+        return data.count;
     }
 
     public async getFollowerCount(
