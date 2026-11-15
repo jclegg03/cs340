@@ -52,3 +52,8 @@
 - Tool: Claude Code
 - Task: Create the getUser endpoint on the backend and wire it up to the frontend.
 - Review: created the endpoint as getuser. I updated it to getUser. E2E passes too.
+
+## 2026-11-15: tweeter-shared/src/model/net/request/GetFolloweeCountRequest.ts (new file), tweeter-shared/src/model/net/response/GetFolloweeCountResponse.ts (new file), tweeter-shared/src/index.ts, tweeter-server/src/getFolloweeCount.ts (new file), tweeter-server/api.auto.tfvars, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the getFolloweeCount endpoint in the backend.
+- Review: Looks good, created the Req and res types, and does the same thing the frontend previously did.

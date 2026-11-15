@@ -4,6 +4,7 @@ lambda = {
     logout = { handler = "logout.handler" }
     register = { handler = "register.handler" }
     getUser = { handler = "getUser.handler" }
+    getFolloweeCount = { handler = "getFolloweeCount.handler" }
 }
 
 allowed_origins = [
@@ -15,4 +16,5 @@ api_resource = {
     logout = { pathPart = "logout", httpMethod = "POST", lambda = "logout" }
     register = { pathPart = "register", httpMethod = "POST", lambda = "register" }
     getUser = { pathPart = "getUser", httpMethod = "POST", lambda = "getUser" }
+    getFolloweeCount = { pathPart = "getFolloweeCount", httpMethod = "POST", lambda = "getFolloweeCount" }
 }
