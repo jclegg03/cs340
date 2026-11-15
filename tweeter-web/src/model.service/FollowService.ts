@@ -2,13 +2,14 @@
 import {
     AuthToken,
     User,
-    FakeData,
     GetFollowCountRequest,
     GetFollowCountResponse,
     FollowRequest,
     FollowResponse,
     IsFollowerRequest,
     IsFollowerResponse,
+    PagedUserItemRequest,
+    PagedUserItemResponse,
 } from "tweeter-shared";
 import { Service } from "./Service";
 
@@ -19,8 +20,7 @@ export class FollowService extends Service {
         pageSize: number,
         lastItem: User | null
     ): Promise<[User[], boolean]> {
-        // TODO: Replace with the result of calling server
-        return FakeData.instance.getPageOfUsers(lastItem, pageSize, userAlias);
+        return this.loadPageOfUsers("loadMoreFollowees", authToken, userAlias, pageSize, lastItem);
     }
 
     public async loadMoreFollowers(
@@ -29,8 +29,7 @@ export class FollowService extends Service {
         pageSize: number,
         lastItem: User | null
     ): Promise<[User[], boolean]> {
-        // TODO: Replace with the result of calling server
-        return FakeData.instance.getPageOfUsers(lastItem, pageSize, userAlias);
+        return this.loadPageOfUsers("loadMoreFollowers", authToken, userAlias, pageSize, lastItem);
     }
 
     public async getIsFollowerStatus(
@@ -100,5 +99,28 @@ export class FollowService extends Service {
             { authToken: authToken.dto, user: userToUnfollow.dto }
         );
         return [data.followerCount, data.followeeCount];
+    }
+
+    // Followees and followers are paged the same way; only the endpoint differs.
+    private async loadPageOfUsers(
+        endpoint: string,
+        authToken: AuthToken,
+        userAlias: string,
+        pageSize: number,
+        lastItem: User | null
+    ): Promise<[User[], boolean]> {
+        const data = await this.callApi<PagedUserItemResponse, PagedUserItemRequest>(
+            endpoint,
+            "POST",
+            {
+                authToken: authToken.dto,
+                userAlias,
+                pageSize,
+                lastItem: lastItem ? lastItem.dto : null,
+            }
+        );
+        // The server sends DTOs (plain data); turn them back into real Users.
+        const users = data.items.map((dto) => User.fromDto(dto)!);
+        return [users, data.hasMore];
     }
 }

@@ -9,6 +9,8 @@ lambda = {
     follow = { handler = "follow.handler" }
     unfollow = { handler = "unfollow.handler" }
     isFollower = { handler = "isFollower.handler" }
+    loadMoreFollowees = { handler = "loadMoreFollowees.handler" }
+    loadMoreFollowers = { handler = "loadMoreFollowers.handler" }
 }
 
 allowed_origins = [
@@ -25,4 +27,6 @@ api_resource = {
     follow = { pathPart = "follow", httpMethod = "POST", lambda = "follow" }
     unfollow = { pathPart = "unfollow", httpMethod = "POST", lambda = "unfollow" }
     isFollower = { pathPart = "isFollower", httpMethod = "POST", lambda = "isFollower" }
+    loadMoreFollowees = { pathPart = "loadMoreFollowees", httpMethod = "POST", lambda = "loadMoreFollowees" }
+    loadMoreFollowers = { pathPart = "loadMoreFollowers", httpMethod = "POST", lambda = "loadMoreFollowers" }
 }

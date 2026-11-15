@@ -87,3 +87,8 @@
 - Tool: Claude Code
 - Task: Create the isFollower endpoint in the backend and wire it up to the frontend.
 - Review: Thought it didn't work at first then realized I forgot to rerun the backend build command. Works e2e.
+
+## 2026-11-15: tweeter-shared/src/model/net/request/PagedUserItemRequest.ts (new file), tweeter-shared/src/model/net/response/PagedUserItemResponse.ts (new file), tweeter-shared/src/index.ts, tweeter-server/src/loadMoreFollowees.ts (new file), tweeter-server/src/loadMoreFollowers.ts (new file), tweeter-server/api.auto.tfvars, tweeter-web/src/model.service/FollowService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the loadMoreFollowees and loadMoreFollowers endpoints in the backend and wire them up to the frontend.
+- Review: Works e2e. Claude did a good job deduping the request/res types and also the API calls since they're identical besides the name.
