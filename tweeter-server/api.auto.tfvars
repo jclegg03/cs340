@@ -5,6 +5,7 @@ lambda = {
     register = { handler = "register.handler" }
     getUser = { handler = "getUser.handler" }
     getFolloweeCount = { handler = "getFolloweeCount.handler" }
+    getFollowerCount = { handler = "getFollowerCount.handler" }
 }
 
 allowed_origins = [
@@ -17,4 +18,5 @@ api_resource = {
     register = { pathPart = "register", httpMethod = "POST", lambda = "register" }
     getUser = { pathPart = "getUser", httpMethod = "POST", lambda = "getUser" }
     getFolloweeCount = { pathPart = "getFolloweeCount", httpMethod = "POST", lambda = "getFolloweeCount" }
+    getFollowerCount = { pathPart = "getFollowerCount", httpMethod = "POST", lambda = "getFollowerCount" }
 }

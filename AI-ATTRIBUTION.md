@@ -62,3 +62,13 @@
 - Tool: Claude Code
 - Task: Wire the frontend's FollowService.getFolloweeCount up to the new getFolloweeCount backend endpoint.
 - Review: Frontend wired up. E2E test passed.
+
+## 2026-11-15: tweeter-shared/src/model/net/request/GetFollowerCountRequest.ts (new file), tweeter-shared/src/model/net/response/GetFollowerCountResponse.ts (new file), tweeter-shared/src/index.ts, tweeter-server/src/getFollowerCount.ts (new file), tweeter-server/api.auto.tfvars, tweeter-web/src/model.service/FollowService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the getFollowerCount endpoint in the backend and wire it up to the frontend.
+- Review: Looks good, E2E test passes.
+
+## 2026-11-15: tweeter-shared/src/model/net/request/GetFollowCountRequest.ts (new file), tweeter-shared/src/model/net/response/GetFollowCountResponse.ts (new file), tweeter-shared/src/model/net/request/GetFolloweeCountRequest.ts (deleted), tweeter-shared/src/model/net/request/GetFollowerCountRequest.ts (deleted), tweeter-shared/src/model/net/response/GetFolloweeCountResponse.ts (deleted), tweeter-shared/src/model/net/response/GetFollowerCountResponse.ts (deleted), tweeter-shared/src/index.ts, tweeter-server/src/getFolloweeCount.ts, tweeter-server/src/getFollowerCount.ts, tweeter-web/src/model.service/FollowService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Deduplicate the identical GetFolloweeCount/GetFollowerCount request and response types into a single GetFollowCountRequest/GetFollowCountResponse.
+- Review: Now unified to 2 types.

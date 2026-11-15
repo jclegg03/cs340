@@ -3,8 +3,8 @@ import {
     AuthToken,
     User,
     FakeData,
-    GetFolloweeCountRequest,
-    GetFolloweeCountResponse,
+    GetFollowCountRequest,
+    GetFollowCountResponse,
 } from "tweeter-shared";
 import { Service } from "./Service";
 
@@ -43,8 +43,8 @@ export class FollowService extends Service {
         user: User,
     ): Promise<number> {
         const data = await this.callApi<
-            GetFolloweeCountResponse,
-            GetFolloweeCountRequest
+            GetFollowCountResponse,
+            GetFollowCountRequest
         >("getFolloweeCount", "POST", {
             authToken: authToken.dto,
             user: user.dto,
@@ -56,8 +56,14 @@ export class FollowService extends Service {
         authToken: AuthToken,
         user: User,
     ): Promise<number> {
-        // TODO: Replace with the result of calling server
-        return FakeData.instance.getFollowerCount(user.alias);
+        const data = await this.callApi<
+            GetFollowCountResponse,
+            GetFollowCountRequest
+        >("getFollowerCount", "POST", {
+            authToken: authToken.dto,
+            user: user.dto,
+        });
+        return data.count;
     }
 
     public async follow(
