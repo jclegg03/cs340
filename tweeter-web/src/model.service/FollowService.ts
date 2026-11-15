@@ -7,6 +7,8 @@ import {
     GetFollowCountResponse,
     FollowRequest,
     FollowResponse,
+    IsFollowerRequest,
+    IsFollowerResponse,
 } from "tweeter-shared";
 import { Service } from "./Service";
 
@@ -36,8 +38,16 @@ export class FollowService extends Service {
         user: User,
         selectedUser: User,
     ): Promise<boolean> {
-        // TODO: Replace with the result of calling server
-        return FakeData.instance.isFollower();
+        const data = await this.callApi<IsFollowerResponse, IsFollowerRequest>(
+            "isFollower",
+            "POST",
+            {
+                authToken: authToken.dto,
+                user: user.dto,
+                selectedUser: selectedUser.dto,
+            }
+        );
+        return data.isFollower;
     }
 
     public async getFolloweeCount(

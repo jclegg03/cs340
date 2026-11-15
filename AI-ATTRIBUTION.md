@@ -82,3 +82,8 @@
 - Tool: Claude Code
 - Task: Speed up deploys by uploading lambda.zip once to S3 with Terraform and pointing every lambda at that S3 object instead of each uploading its own copy.
 - Review: Change looks good and verified objects were created. It works e2e and deployment time was cut significantly.
+
+## 2026-11-15: tweeter-shared/src/model/net/request/IsFollowerRequest.ts (new file), tweeter-shared/src/model/net/response/IsFollowerResponse.ts (new file), tweeter-shared/src/index.ts, tweeter-server/src/isFollower.ts (new file), tweeter-server/api.auto.tfvars, tweeter-web/src/model.service/FollowService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the isFollower endpoint in the backend and wire it up to the frontend.
+- Review: Thought it didn't work at first then realized I forgot to rerun the backend build command. Works e2e.

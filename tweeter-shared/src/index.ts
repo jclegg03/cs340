@@ -16,12 +16,14 @@ export type { RegisterRequest } from "./model/net/request/RegisterRequest";
 export type { GetUserRequest } from "./model/net/request/GetUserRequest";
 export type { GetFollowCountRequest } from "./model/net/request/GetFollowCountRequest";
 export type { FollowRequest } from "./model/net/request/FollowRequest";
+export type { IsFollowerRequest } from "./model/net/request/IsFollowerRequest";
 export type { LoginResponse } from "./model/net/response/LoginResponse";
 export type { LogoutResponse } from "./model/net/response/LogoutResponse";
 export type { RegisterResponse } from "./model/net/response/RegisterResponse";
 export type { GetUserResponse } from "./model/net/response/GetUserResponse";
 export type { GetFollowCountResponse } from "./model/net/response/GetFollowCountResponse";
 export type { FollowResponse } from "./model/net/response/FollowResponse";
+export type { IsFollowerResponse } from "./model/net/response/IsFollowerResponse";
 
 // All classes that should be avaialble to other modules need to exported here. export * does not work when 
 // uploading to lambda. Instead we have to list each export.
