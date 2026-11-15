@@ -77,3 +77,8 @@
 - Tool: Claude Code
 - Task: Create the follow and unfollow endpoints in the backend and wire them up to the frontend.
 - Review: e2e test worked. Worth noting that it may need updating once we move off fake data.
+
+## 2026-11-15: tweeter-server/main.tf, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Speed up deploys by uploading lambda.zip once to S3 with Terraform and pointing every lambda at that S3 object instead of each uploading its own copy.
+- Review: Change looks good and verified objects were created. It works e2e and deployment time was cut significantly.
