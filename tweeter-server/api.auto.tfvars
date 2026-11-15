@@ -6,6 +6,8 @@ lambda = {
     getUser = { handler = "getUser.handler" }
     getFolloweeCount = { handler = "getFolloweeCount.handler" }
     getFollowerCount = { handler = "getFollowerCount.handler" }
+    follow = { handler = "follow.handler" }
+    unfollow = { handler = "unfollow.handler" }
 }
 
 allowed_origins = [
@@ -19,4 +21,6 @@ api_resource = {
     getUser = { pathPart = "getUser", httpMethod = "POST", lambda = "getUser" }
     getFolloweeCount = { pathPart = "getFolloweeCount", httpMethod = "POST", lambda = "getFolloweeCount" }
     getFollowerCount = { pathPart = "getFollowerCount", httpMethod = "POST", lambda = "getFollowerCount" }
+    follow = { pathPart = "follow", httpMethod = "POST", lambda = "follow" }
+    unfollow = { pathPart = "unfollow", httpMethod = "POST", lambda = "unfollow" }
 }

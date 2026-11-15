@@ -72,3 +72,8 @@
 - Tool: Claude Code
 - Task: Deduplicate the identical GetFolloweeCount/GetFollowerCount request and response types into a single GetFollowCountRequest/GetFollowCountResponse.
 - Review: Now unified to 2 types.
+
+## 2026-11-15: tweeter-shared/src/model/net/request/FollowRequest.ts (new file), tweeter-shared/src/model/net/response/FollowResponse.ts (new file), tweeter-shared/src/index.ts, tweeter-server/src/follow.ts (new file), tweeter-server/src/unfollow.ts (new file), tweeter-server/api.auto.tfvars, tweeter-web/src/model.service/FollowService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the follow and unfollow endpoints in the backend and wire them up to the frontend.
+- Review: e2e test worked. Worth noting that it may need updating once we move off fake data.
