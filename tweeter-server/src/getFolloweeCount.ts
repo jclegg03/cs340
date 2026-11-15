@@ -2,16 +2,16 @@
 
 import {
     FakeData,
-    GetFolloweeCountRequest,
-    GetFolloweeCountResponse,
+    GetFollowCountRequest,
+    GetFollowCountResponse,
 } from "tweeter-shared";
 
 // GetFolloweeCount endpoint: API Gateway passes the JSON request body in as `request`
 // and returns whatever this function returns as the response body.
 // There is no follow storage yet, so the count comes from the fake data.
 export const handler = async (
-    request: GetFolloweeCountRequest
-): Promise<GetFolloweeCountResponse> => {
+    request: GetFollowCountRequest
+): Promise<GetFollowCountResponse> => {
     // TODO: check request.authToken once auth tokens are stored server-side.
     const count = await FakeData.instance.getFolloweeCount(request.user.alias);
 
