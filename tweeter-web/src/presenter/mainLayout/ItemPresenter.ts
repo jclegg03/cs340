@@ -41,7 +41,6 @@ export abstract class ItemPresenter<T, U extends Service> extends Presenter<Item
         authToken: AuthToken,
         alias: string
     ): Promise<User | null> {
-        // TODO: Replace with the result of calling server
         return this.userService.getUser(authToken, alias);
     }
 
