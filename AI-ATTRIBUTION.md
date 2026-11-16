@@ -92,3 +92,8 @@
 - Tool: Claude Code
 - Task: Create the loadMoreFollowees and loadMoreFollowers endpoints in the backend and wire them up to the frontend.
 - Review: Works e2e. Claude did a good job deduping the request/res types and also the API calls since they're identical besides the name.
+
+## 2026-11-16: tweeter-shared/src/model/dto/StatusDto.ts (new file), tweeter-shared/src/model/net/request/PagedStatusItemRequest.ts (new file), tweeter-shared/src/model/net/response/PagedStatusItemResponse.ts (new file), tweeter-shared/src/model/domain/Status.ts, tweeter-shared/src/index.ts, tweeter-server/src/loadMoreFeedItems.ts (new file), tweeter-server/src/loadMoreStoryItems.ts (new file), tweeter-server/api.auto.tfvars, tweeter-web/src/model.service/StatusService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the loadMoreFeedItems and loadMoreStoryItems endpoints in the backend and wire them up to the frontend.
+- Review: Some duplicated code, mostly the return types. Will refactor to dedup. E2E test passes.
