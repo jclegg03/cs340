@@ -8,8 +8,9 @@ import {
     FollowResponse,
     IsFollowerRequest,
     IsFollowerResponse,
-    PagedUserItemRequest,
-    PagedUserItemResponse,
+    PagedItemRequest,
+    PagedItemResponse,
+    UserDto,
 } from "tweeter-shared";
 import { Service } from "./Service";
 
@@ -109,7 +110,10 @@ export class FollowService extends Service {
         pageSize: number,
         lastItem: User | null
     ): Promise<[User[], boolean]> {
-        const data = await this.callApi<PagedUserItemResponse, PagedUserItemRequest>(
+        const data = await this.callApi<
+            PagedItemResponse<UserDto>,
+            PagedItemRequest<UserDto>
+        >(
             endpoint,
             "POST",
             {

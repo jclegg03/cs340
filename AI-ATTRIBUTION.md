@@ -97,3 +97,8 @@
 - Tool: Claude Code
 - Task: Create the loadMoreFeedItems and loadMoreStoryItems endpoints in the backend and wire them up to the frontend.
 - Review: Some duplicated code, mostly the return types. Will refactor to dedup. E2E test passes.
+
+## 2026-11-16: tweeter-shared/src/model/net/request/PagedItemRequest.ts (new file), tweeter-shared/src/model/net/response/PagedItemResponse.ts (new file), tweeter-shared/src/model/net/request/PagedUserItemRequest.ts (deleted), tweeter-shared/src/model/net/request/PagedStatusItemRequest.ts (deleted), tweeter-shared/src/model/net/response/PagedUserItemResponse.ts (deleted), tweeter-shared/src/model/net/response/PagedStatusItemResponse.ts (deleted), tweeter-shared/src/index.ts, tweeter-server/src/loadMoreFollowees.ts, tweeter-server/src/loadMoreFollowers.ts, tweeter-server/src/loadMoreFeedItems.ts, tweeter-server/src/loadMoreStoryItems.ts, tweeter-web/src/model.service/FollowService.ts, tweeter-web/src/model.service/StatusService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Deduplicate the PagedUserItem and PagedStatusItem request and response types.
+- Review: Code looks clean and the e2e tests still pass.

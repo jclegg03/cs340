@@ -2,17 +2,18 @@
 
 import {
     FakeData,
-    PagedStatusItemRequest,
-    PagedStatusItemResponse,
+    PagedItemRequest,
+    PagedItemResponse,
     Status,
+    StatusDto,
 } from "tweeter-shared";
 
 // LoadMoreStoryItems endpoint: API Gateway passes the JSON request body in as `request`
 // and returns whatever this function returns as the response body.
 // There is no status storage yet, so the page of story statuses comes from the fake data.
 export const handler = async (
-    request: PagedStatusItemRequest
-): Promise<PagedStatusItemResponse> => {
+    request: PagedItemRequest<StatusDto>
+): Promise<PagedItemResponse<StatusDto>> => {
     // TODO: check request.authToken, and use request.userAlias to pick whose
     // story to load once statuses are stored server-side.
     const [statuses, hasMore] = FakeData.instance.getPageOfStatuses(

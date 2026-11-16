@@ -2,8 +2,9 @@
 import {
     AuthToken,
     Status,
-    PagedStatusItemRequest,
-    PagedStatusItemResponse,
+    PagedItemRequest,
+    PagedItemResponse,
+    StatusDto,
 } from "tweeter-shared";
 import { Service } from "./Service";
 
@@ -44,7 +45,10 @@ export class StatusService extends Service {
         pageSize: number,
         lastItem: Status | null
     ): Promise<[Status[], boolean]> {
-        const data = await this.callApi<PagedStatusItemResponse, PagedStatusItemRequest>(
+        const data = await this.callApi<
+            PagedItemResponse<StatusDto>,
+            PagedItemRequest<StatusDto>
+        >(
             endpoint,
             "POST",
             {
