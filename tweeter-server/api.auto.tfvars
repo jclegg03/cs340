@@ -13,6 +13,7 @@ lambda = {
     loadMoreFollowers = { handler = "loadMoreFollowers.handler" }
     loadMoreFeedItems = { handler = "loadMoreFeedItems.handler" }
     loadMoreStoryItems = { handler = "loadMoreStoryItems.handler" }
+    postStatus = { handler = "postStatus.handler" }
 }
 
 allowed_origins = [
@@ -33,4 +34,5 @@ api_resource = {
     loadMoreFollowers = { pathPart = "loadMoreFollowers", httpMethod = "POST", lambda = "loadMoreFollowers" }
     loadMoreFeedItems = { pathPart = "loadMoreFeedItems", httpMethod = "POST", lambda = "loadMoreFeedItems" }
     loadMoreStoryItems = { pathPart = "loadMoreStoryItems", httpMethod = "POST", lambda = "loadMoreStoryItems" }
+    postStatus = { pathPart = "postStatus", httpMethod = "POST", lambda = "postStatus" }
 }

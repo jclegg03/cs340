@@ -102,3 +102,8 @@
 - Tool: Claude Code
 - Task: Deduplicate the PagedUserItem and PagedStatusItem request and response types.
 - Review: Code looks clean and the e2e tests still pass.
+
+## 2026-11-16: tweeter-shared/src/model/net/request/PostStatusRequest.ts (new file), tweeter-shared/src/model/net/response/PostStatusResponse.ts (new file), tweeter-shared/src/index.ts, tweeter-server/src/postStatus.ts (new file), tweeter-server/api.auto.tfvars, tweeter-web/src/model.service/StatusService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the postStatus endpoint in the backend and wire it up to the frontend.
+- Review: e2e test passes. Code looks good.

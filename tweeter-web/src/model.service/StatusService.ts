@@ -5,6 +5,8 @@ import {
     PagedItemRequest,
     PagedItemResponse,
     StatusDto,
+    PostStatusRequest,
+    PostStatusResponse,
 } from "tweeter-shared";
 import { Service } from "./Service";
 
@@ -31,10 +33,15 @@ export class StatusService extends Service {
         authToken: AuthToken,
         newStatus: Status,
     ): Promise<void> {
-        // Pause so we can see the logging out message. Remove when connected to the server
-        await new Promise((f) => setTimeout(f, 2000));
+        const data = await this.callApi<PostStatusResponse, PostStatusRequest>(
+            "postStatus",
+            "POST",
+            { authToken: authToken.dto, newStatus: newStatus.dto }
+        );
 
-        // TODO: Call the server to post the status
+        if (!data.success) {
+            throw new Error("Posting the status failed");
+        }
     }
 
     // Feed and story are paged the same way; only the endpoint differs.

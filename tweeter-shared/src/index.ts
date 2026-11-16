@@ -19,6 +19,7 @@ export type { GetFollowCountRequest } from "./model/net/request/GetFollowCountRe
 export type { FollowRequest } from "./model/net/request/FollowRequest";
 export type { IsFollowerRequest } from "./model/net/request/IsFollowerRequest";
 export type { PagedItemRequest } from "./model/net/request/PagedItemRequest";
+export type { PostStatusRequest } from "./model/net/request/PostStatusRequest";
 export type { LoginResponse } from "./model/net/response/LoginResponse";
 export type { LogoutResponse } from "./model/net/response/LogoutResponse";
 export type { RegisterResponse } from "./model/net/response/RegisterResponse";
@@ -27,6 +28,7 @@ export type { GetFollowCountResponse } from "./model/net/response/GetFollowCount
 export type { FollowResponse } from "./model/net/response/FollowResponse";
 export type { IsFollowerResponse } from "./model/net/response/IsFollowerResponse";
 export type { PagedItemResponse } from "./model/net/response/PagedItemResponse";
+export type { PostStatusResponse } from "./model/net/response/PostStatusResponse";
 
 // All classes that should be avaialble to other modules need to exported here. export * does not work when 
 // uploading to lambda. Instead we have to list each export.
