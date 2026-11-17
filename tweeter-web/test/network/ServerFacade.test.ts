@@ -158,4 +158,21 @@ describe("ServerFacade integration tests", () => {
       expect(count).toBeLessThanOrEqual(10);
     });
   });
+
+  // Follower count = how many users follow this user.
+  describe("getFollowerCount", () => {
+    const request: GetFollowCountRequest = {
+      authToken: FakeData.instance.authToken.dto,
+      user: FakeData.instance.firstUser!.dto,
+    };
+
+    it("returns the user's follower count", async () => {
+      const count = await serverFacade.getFollowerCount(request);
+
+      // FakeData picks a random whole number from 1 to 10, so check the range.
+      expect(Number.isInteger(count)).toBe(true);
+      expect(count).toBeGreaterThanOrEqual(1);
+      expect(count).toBeLessThanOrEqual(10);
+    });
+  });
 });
