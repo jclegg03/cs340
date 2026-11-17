@@ -147,3 +147,8 @@
 - Tool: Claude Code
 - Task: Deduplicate the getFolloweeCount and getFollowerCount integration tests using describe.each.
 - Review: dedup works and tests pass
+
+## 2026-11-17: tweeter-web/test/model.service/StatusService.test.ts (new file), AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Write a Jest integration test for the client-side StatusService that verifies a successful retrieval of a user's story pages.
+- Review: Tests that the first and second page look right. tests pass.
