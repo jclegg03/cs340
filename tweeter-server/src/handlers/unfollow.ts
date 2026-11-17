@@ -1,17 +1,19 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 
-import { FakeData, FollowRequest, FollowResponse } from "tweeter-shared";
+import { AuthToken, FollowRequest, FollowResponse, User } from "tweeter-shared";
+import { FollowService } from "../service/FollowService";
 
-// Unfollow endpoint: API Gateway passes the JSON request body in as `request`
-// and returns whatever this function returns as the response body.
-// There is no follow storage yet, so nothing is saved and the counts come from the fake data.
+// Unfollow endpoint. Returns the user's counts after the change.
+// API Gateway passes the JSON request body in as `request` and returns whatever
+// this function returns as the response body. This only converts DTOs to and from
+// domain objects; the service does the work.
 export const handler = async (
     request: FollowRequest
 ): Promise<FollowResponse> => {
-    // TODO: check request.authToken and record the unfollow once storage exists.
-    // TODO: make sure this calls the right functions to get the updated counts.
-    const followerCount = await FakeData.instance.getFollowerCount(request.user.alias);
-    const followeeCount = await FakeData.instance.getFolloweeCount(request.user.alias);
+    const [followerCount, followeeCount] = await new FollowService().unfollow(
+        AuthToken.fromDto(request.authToken)!,
+        User.fromDto(request.user)!
+    );
 
     return { followerCount, followeeCount };
 };

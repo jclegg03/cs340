@@ -1,6 +1,9 @@
+// AI-assisted: see AI-ATTRIBUTION.md
 import { AuthToken, Status, FakeData } from "tweeter-shared";
 import { Service } from "./Service";
 
+// There is no status storage yet, so pages come from the fake data.
+// TODO: check authToken in each method once auth tokens are stored server-side.
 export class StatusService implements Service {
     public async loadMoreStoryItems(
         authToken: AuthToken,
@@ -8,7 +11,7 @@ export class StatusService implements Service {
         pageSize: number,
         lastItem: Status | null
     ): Promise<[Status[], boolean]> {
-        // TODO: Replace with the result of calling server
+        // TODO: use userAlias to load that user's story once statuses are stored.
         return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
     }
 
@@ -18,7 +21,7 @@ export class StatusService implements Service {
         pageSize: number,
         lastItem: Status | null
     ): Promise<[Status[], boolean]> {
-        // TODO: Replace with the result of calling server
+        // TODO: use userAlias to load that user's feed once statuses are stored.
         return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
     }
 
@@ -26,9 +29,7 @@ export class StatusService implements Service {
         authToken: AuthToken,
         newStatus: Status,
     ): Promise<void> {
-        // Pause so we can see the logging out message. Remove when connected to the server
-        await new Promise((f) => setTimeout(f, 2000));
-
-        // TODO: Call the server to post the status
+        // TODO: save newStatus to the poster's story and their followers' feeds
+        // once storage exists.
     }
 }

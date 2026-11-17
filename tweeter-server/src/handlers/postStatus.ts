@@ -1,14 +1,24 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 
-import { PostStatusRequest, PostStatusResponse } from "tweeter-shared";
+import {
+    AuthToken,
+    PostStatusRequest,
+    PostStatusResponse,
+    Status,
+} from "tweeter-shared";
+import { StatusService } from "../service/StatusService";
 
-// PostStatus endpoint: API Gateway passes the JSON request body in as `request`
-// and returns whatever this function returns as the response body.
-// There is no status storage yet, so the status is not saved anywhere.
+// PostStatus endpoint.
+// API Gateway passes the JSON request body in as `request` and returns whatever
+// this function returns as the response body. This only converts DTOs to and from
+// domain objects; the service does the work.
 export const handler = async (
     request: PostStatusRequest
 ): Promise<PostStatusResponse> => {
-    // TODO: check request.authToken and save request.newStatus to the poster's
-    // story and their followers' feeds once storage exists.
+    await new StatusService().postStatus(
+        AuthToken.fromDto(request.authToken)!,
+        Status.fromDto(request.newStatus)!
+    );
+
     return { success: true };
 };

@@ -1,5 +1,5 @@
+// AI-assisted: see AI-ATTRIBUTION.md
 import { AuthToken, User, FakeData } from "tweeter-shared";
-import { Buffer } from "buffer";
 import { Service } from "./Service";
 
 export class UserService implements Service {
@@ -7,53 +7,35 @@ export class UserService implements Service {
         authToken: AuthToken,
         alias: string
     ): Promise<User | null> {
-        // TODO: Replace with the result of calling server
+        // TODO: check authToken once auth tokens are stored server-side.
+        // There is no user storage yet, so this looks the alias up in the fake data.
         return FakeData.instance.findUserByAlias(alias);
     }
 
-    public updateUserInfo() { return null; }
-    public clearUserInfo() { return null; }
-    public setDisplayedUser() { return null; }
-
+    // user is null when the alias and password don't match a user.
     public async login(
         alias: string,
         password: string
-    ): Promise<[User, AuthToken]> {
-        // TODO: Replace with the result of calling the server
-        const user = FakeData.instance.firstUser;
-
-        if (user === null) {
-            throw new Error("Invalid alias or password");
-        }
-
-        return [user, FakeData.instance.authToken];
+    ): Promise<[user: User | null, authToken: AuthToken]> {
+        // TODO: check the alias and password once users are stored server-side.
+        return [FakeData.instance.firstUser, FakeData.instance.authToken];
     }
 
+    // user is null when registration fails.
     public async register(
         firstName: string,
         lastName: string,
         alias: string,
         password: string,
-        userImageBytes: Uint8Array,
+        userImageBase64: string,
         imageFileExtension: string
-    ): Promise<[User, AuthToken]> {
-        // Not neded now, but will be needed when you make the request to the server in milestone 3
-        const imageStringBase64: string =
-            Buffer.from(userImageBytes).toString("base64");
-
-        // TODO: Replace with the result of calling the server
-        const user = FakeData.instance.firstUser;
-
-        if (user === null) {
-            throw new Error("Invalid registration");
-        }
-
-        return [user, FakeData.instance.authToken];
-    };
+    ): Promise<[user: User | null, authToken: AuthToken]> {
+        // TODO: save the new user and upload the image once storage exists.
+        // Until then this returns the fake first user.
+        return [FakeData.instance.firstUser, FakeData.instance.authToken];
+    }
 
     public async logout(authToken: AuthToken): Promise<void> {
-        //TODO make this function useful
-        await new Promise((res) => setTimeout(res, 1000));
-        if(authToken) return;
+        // TODO: invalidate authToken once auth tokens are stored server-side.
     }
 }

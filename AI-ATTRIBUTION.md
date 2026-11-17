@@ -112,3 +112,8 @@
 - Tool: Claude Code
 - Task: Refactor the backend lambda handlers into the src/handlers folder.
 - Review: Move handlers to the handlers folder. e2e still works
+
+## 2026-11-17: tweeter-server/src/handlers/follow.ts, tweeter-server/src/handlers/getFolloweeCount.ts, tweeter-server/src/handlers/getFollowerCount.ts, tweeter-server/src/handlers/getUser.ts, tweeter-server/src/handlers/isFollower.ts, tweeter-server/src/handlers/loadMoreFeedItems.ts, tweeter-server/src/handlers/loadMoreFollowees.ts, tweeter-server/src/handlers/loadMoreFollowers.ts, tweeter-server/src/handlers/loadMoreStoryItems.ts, tweeter-server/src/handlers/login.ts, tweeter-server/src/handlers/logout.ts, tweeter-server/src/handlers/postStatus.ts, tweeter-server/src/handlers/register.ts, tweeter-server/src/handlers/unfollow.ts, tweeter-server/src/service/FollowService.ts, tweeter-server/src/service/Service.ts, tweeter-server/src/service/StatusService.ts, tweeter-server/src/service/UserService.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Refactor the backend handlers to call the services for the fake data, so the handlers only convert requests and responses to and from DTOs.
+- Review: e2e tests pass. The service interface just added comments so I removed those. Everything else looks good

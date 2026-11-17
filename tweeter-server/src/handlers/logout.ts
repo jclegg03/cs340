@@ -1,13 +1,16 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 
-import { LogoutRequest, LogoutResponse } from "tweeter-shared";
+import { AuthToken, LogoutRequest, LogoutResponse } from "tweeter-shared";
+import { UserService } from "../service/UserService";
 
-// Logout endpoint: API Gateway passes the JSON request body in as `request`
-// and returns whatever this function returns as the response body.
-// There is no session storage yet, so this only accepts the token and reports success.
+// Logout endpoint.
+// API Gateway passes the JSON request body in as `request` and returns whatever
+// this function returns as the response body. This only converts DTOs to and from
+// domain objects; the service does the work.
 export const handler = async (
     request: LogoutRequest
 ): Promise<LogoutResponse> => {
-    // TODO: invalidate request.authToken once auth tokens are stored server-side.
+    await new UserService().logout(AuthToken.fromDto(request.authToken)!);
+
     return { success: true };
 };

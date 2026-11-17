@@ -1,19 +1,23 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 
-import { FakeData, RegisterRequest, RegisterResponse } from "tweeter-shared";
+import { RegisterRequest, RegisterResponse } from "tweeter-shared";
+import { UserService } from "../service/UserService";
 
-// Register endpoint: API Gateway passes the JSON request body in as `request`
-// and returns whatever this function returns as the response body.
-// There is no user storage yet, so this returns the fake first user.
+// Register endpoint.
+// API Gateway passes the JSON request body in as `request` and returns whatever
+// this function returns as the response body. This only converts DTOs to and from
+// domain objects; the service does the work.
 export const handler = async (
     request: RegisterRequest
 ): Promise<RegisterResponse> => {
-    // TODO: save the new user and upload request.userImageBase64 once storage exists.
-    const user = FakeData.instance.firstUser;
-    const authToken = FakeData.instance.authToken;
+    const [user, authToken] = await new UserService().register(
+        request.firstName,
+        request.lastName,
+        request.alias,
+        request.password,
+        request.userImageBase64,
+        request.imageFileExtension
+    );
 
-    return {
-        user: user ? user.dto : null,
-        authToken: authToken.dto,
-    };
+    return { user: user ? user.dto : null, authToken: authToken.dto };
 };

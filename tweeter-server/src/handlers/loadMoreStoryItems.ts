@@ -1,24 +1,26 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 
 import {
-    FakeData,
+    AuthToken,
     PagedItemRequest,
     PagedItemResponse,
     Status,
     StatusDto,
 } from "tweeter-shared";
+import { StatusService } from "../service/StatusService";
 
-// LoadMoreStoryItems endpoint: API Gateway passes the JSON request body in as `request`
-// and returns whatever this function returns as the response body.
-// There is no status storage yet, so the page of story statuses comes from the fake data.
+// LoadMoreStoryItems endpoint.
+// API Gateway passes the JSON request body in as `request` and returns whatever
+// this function returns as the response body. This only converts DTOs to and from
+// domain objects; the service does the work.
 export const handler = async (
     request: PagedItemRequest<StatusDto>
 ): Promise<PagedItemResponse<StatusDto>> => {
-    // TODO: check request.authToken, and use request.userAlias to pick whose
-    // story to load once statuses are stored server-side.
-    const [statuses, hasMore] = FakeData.instance.getPageOfStatuses(
-        Status.fromDto(request.lastItem),
-        request.pageSize
+    const [statuses, hasMore] = await new StatusService().loadMoreStoryItems(
+        AuthToken.fromDto(request.authToken)!,
+        request.userAlias,
+        request.pageSize,
+        Status.fromDto(request.lastItem)
     );
 
     return { items: statuses.map((status) => status.dto), hasMore };

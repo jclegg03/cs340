@@ -1,6 +1,9 @@
+// AI-assisted: see AI-ATTRIBUTION.md
 import { AuthToken, User, FakeData } from "tweeter-shared";
 import { Service } from "./Service";
 
+// There is no follow storage yet, so everything here comes from the fake data.
+// TODO: check authToken in each method once auth tokens are stored server-side.
 export class FollowService implements Service {
     public async loadMoreFollowees(
         authToken: AuthToken,
@@ -8,7 +11,6 @@ export class FollowService implements Service {
         pageSize: number,
         lastItem: User | null
     ): Promise<[User[], boolean]> {
-        // TODO: Replace with the result of calling server
         return FakeData.instance.getPageOfUsers(lastItem, pageSize, userAlias);
     }
 
@@ -18,16 +20,15 @@ export class FollowService implements Service {
         pageSize: number,
         lastItem: User | null
     ): Promise<[User[], boolean]> {
-        // TODO: Replace with the result of calling server
         return FakeData.instance.getPageOfUsers(lastItem, pageSize, userAlias);
     }
 
+    // Whether user follows selectedUser.
     public async getIsFollowerStatus(
         authToken: AuthToken,
         user: User,
         selectedUser: User,
     ): Promise<boolean> {
-        // TODO: Replace with the result of calling server
         return FakeData.instance.isFollower();
     }
 
@@ -35,7 +36,6 @@ export class FollowService implements Service {
         authToken: AuthToken,
         user: User,
     ): Promise<number> {
-        // TODO: Replace with the result of calling server
         return FakeData.instance.getFolloweeCount(user.alias);
     }
 
@@ -43,34 +43,28 @@ export class FollowService implements Service {
         authToken: AuthToken,
         user: User,
     ): Promise<number> {
-        // TODO: Replace with the result of calling server
         return FakeData.instance.getFollowerCount(user.alias);
     }
 
+    // Returns userToFollow's counts after the follow.
     public async follow(
         authToken: AuthToken,
         userToFollow: User,
     ): Promise<[followerCount: number, followeeCount: number]> {
-        // Pause so we can see the follow message. Remove when connected to the server
-        await new Promise((f) => setTimeout(f, 2000));
-
-        // TODO: Call the server
-
+        // TODO: record the follow once storage exists.
+        // TODO: make sure this calls the right functions to get the updated counts.
         const followerCount = await this.getFollowerCount(authToken, userToFollow);
         const followeeCount = await this.getFolloweeCount(authToken, userToFollow);
 
         return [followerCount, followeeCount];
-    };
+    }
 
+    // Returns userToUnfollow's counts after the unfollow.
     public async unfollow(
         authToken: AuthToken,
         userToUnfollow: User,
     ): Promise<[followerCount: number, followeeCount: number]> {
-        // Pause so we can see the unfollow message. Remove when connected to the server
-        await new Promise((f) => setTimeout(f, 2000));
-
-        // TODO: Call the server
-
+        // TODO: record the unfollow once storage exists.
         const followerCount = await this.getFollowerCount(authToken, userToUnfollow);
         const followeeCount = await this.getFolloweeCount(authToken, userToUnfollow);
 
