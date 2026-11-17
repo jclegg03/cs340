@@ -132,3 +132,8 @@
 - Tool: Claude Code
 - Task: Add Jest integration tests that call the ServerFacade directly to verify getting followers (getMoreFollowers) from the server.
 - Review: tests look good. Tests the first page against fake data. Tests that the next page starts in the right spot. Tests that the last page is marked correctly. All tests pass.
+
+## 2026-11-17: tweeter-web/test/network/ServerFacade.test.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Add a Jest integration test that calls the ServerFacade directly to verify getting the following (followee) count from the server.
+- Review: test checks the right things and passes.

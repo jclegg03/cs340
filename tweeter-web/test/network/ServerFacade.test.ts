@@ -13,6 +13,7 @@
 import {
   AuthToken,
   FakeData,
+  GetFollowCountRequest,
   PagedItemRequest,
   RegisterRequest,
   User,
@@ -138,6 +139,23 @@ describe("ServerFacade integration tests", () => {
         "@kathy",
       ]);
       expect(hasMore).toBe(false);
+    });
+  });
+
+  // Followee count = how many users this user is following.
+  describe("getFolloweeCount", () => {
+    const request: GetFollowCountRequest = {
+      authToken: FakeData.instance.authToken.dto,
+      user: FakeData.instance.firstUser!.dto,
+    };
+
+    it("returns the user's followee count", async () => {
+      const count = await serverFacade.getFolloweeCount(request);
+
+      // FakeData picks a random whole number from 1 to 10, so check the range.
+      expect(Number.isInteger(count)).toBe(true);
+      expect(count).toBeGreaterThanOrEqual(1);
+      expect(count).toBeLessThanOrEqual(10);
     });
   });
 });
