@@ -152,3 +152,8 @@
 - Tool: Claude Code
 - Task: Write a Jest integration test for the client-side StatusService that verifies a successful retrieval of a user's story pages.
 - Review: Tests that the first and second page look right. tests pass.
+
+## 2026-11-17: tweeter-server/main.tf, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Add 400 and 500 integration responses (with CORS) to every API Gateway endpoint.
+- Review: deploys, terraform looks good
