@@ -1,7 +1,7 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 variable "lambda" {
     # key: short lambda name (deployed as "tweeter-<key>")
-    # handler: "<file in dist>.<exported function>", e.g. "login.handler"
+    # handler: "<file path in dist, without .js>.<exported function>", e.g. "handlers/login.handler"
     type= map(object({handler = string}))
     default = {}
 }

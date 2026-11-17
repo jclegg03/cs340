@@ -1,19 +1,19 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 lambda = {
-    login = { handler = "login.handler" }
-    logout = { handler = "logout.handler" }
-    register = { handler = "register.handler" }
-    getUser = { handler = "getUser.handler" }
-    getFolloweeCount = { handler = "getFolloweeCount.handler" }
-    getFollowerCount = { handler = "getFollowerCount.handler" }
-    follow = { handler = "follow.handler" }
-    unfollow = { handler = "unfollow.handler" }
-    isFollower = { handler = "isFollower.handler" }
-    loadMoreFollowees = { handler = "loadMoreFollowees.handler" }
-    loadMoreFollowers = { handler = "loadMoreFollowers.handler" }
-    loadMoreFeedItems = { handler = "loadMoreFeedItems.handler" }
-    loadMoreStoryItems = { handler = "loadMoreStoryItems.handler" }
-    postStatus = { handler = "postStatus.handler" }
+    login = { handler = "handlers/login.handler" }
+    logout = { handler = "handlers/logout.handler" }
+    register = { handler = "handlers/register.handler" }
+    getUser = { handler = "handlers/getUser.handler" }
+    getFolloweeCount = { handler = "handlers/getFolloweeCount.handler" }
+    getFollowerCount = { handler = "handlers/getFollowerCount.handler" }
+    follow = { handler = "handlers/follow.handler" }
+    unfollow = { handler = "handlers/unfollow.handler" }
+    isFollower = { handler = "handlers/isFollower.handler" }
+    loadMoreFollowees = { handler = "handlers/loadMoreFollowees.handler" }
+    loadMoreFollowers = { handler = "handlers/loadMoreFollowers.handler" }
+    loadMoreFeedItems = { handler = "handlers/loadMoreFeedItems.handler" }
+    loadMoreStoryItems = { handler = "handlers/loadMoreStoryItems.handler" }
+    postStatus = { handler = "handlers/postStatus.handler" }
 }
 
 allowed_origins = [

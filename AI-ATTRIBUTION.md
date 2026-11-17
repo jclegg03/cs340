@@ -107,3 +107,8 @@
 - Tool: Claude Code
 - Task: Create the postStatus endpoint in the backend and wire it up to the frontend.
 - Review: e2e test passes. Code looks good.
+
+## 2026-11-17: tweeter-server/src/follow.ts -> tweeter-server/src/handlers/follow.ts (moved), tweeter-server/src/getFolloweeCount.ts -> tweeter-server/src/handlers/getFolloweeCount.ts (moved), tweeter-server/src/getFollowerCount.ts -> tweeter-server/src/handlers/getFollowerCount.ts (moved), tweeter-server/src/getUser.ts -> tweeter-server/src/handlers/getUser.ts (moved), tweeter-server/src/isFollower.ts -> tweeter-server/src/handlers/isFollower.ts (moved), tweeter-server/src/loadMoreFeedItems.ts -> tweeter-server/src/handlers/loadMoreFeedItems.ts (moved), tweeter-server/src/loadMoreFollowees.ts -> tweeter-server/src/handlers/loadMoreFollowees.ts (moved), tweeter-server/src/loadMoreFollowers.ts -> tweeter-server/src/handlers/loadMoreFollowers.ts (moved), tweeter-server/src/loadMoreStoryItems.ts -> tweeter-server/src/handlers/loadMoreStoryItems.ts (moved), tweeter-server/src/login.ts -> tweeter-server/src/handlers/login.ts (moved), tweeter-server/src/logout.ts -> tweeter-server/src/handlers/logout.ts (moved), tweeter-server/src/postStatus.ts -> tweeter-server/src/handlers/postStatus.ts (moved), tweeter-server/src/register.ts -> tweeter-server/src/handlers/register.ts (moved), tweeter-server/src/unfollow.ts -> tweeter-server/src/handlers/unfollow.ts (moved), tweeter-server/api.auto.tfvars, tweeter-server/parameters.tf, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Refactor the backend lambda handlers into the src/handlers folder.
+- Review: Move handlers to the handlers folder. e2e still works
