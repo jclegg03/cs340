@@ -142,3 +142,8 @@
 - Tool: Claude Code
 - Task: Add a Jest integration test that calls the ServerFacade directly to verify getting the follower count from the server.
 - Review: Looks good aside from duplication. Will fix in next prompt.
+
+## 2026-11-17: tweeter-web/test/network/ServerFacade.test.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Deduplicate the getFolloweeCount and getFollowerCount integration tests using describe.each.
+- Review: dedup works and tests pass

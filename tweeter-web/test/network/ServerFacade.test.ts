@@ -143,31 +143,19 @@ describe("ServerFacade integration tests", () => {
   });
 
   // Followee count = how many users this user is following.
-  describe("getFolloweeCount", () => {
-    const request: GetFollowCountRequest = {
-      authToken: FakeData.instance.authToken.dto,
-      user: FakeData.instance.firstUser!.dto,
-    };
-
-    it("returns the user's followee count", async () => {
-      const count = await serverFacade.getFolloweeCount(request);
-
-      // FakeData picks a random whole number from 1 to 10, so check the range.
-      expect(Number.isInteger(count)).toBe(true);
-      expect(count).toBeGreaterThanOrEqual(1);
-      expect(count).toBeLessThanOrEqual(10);
-    });
-  });
-
   // Follower count = how many users follow this user.
-  describe("getFollowerCount", () => {
+  // Both take the same request and return a number, so one set of tests covers both.
+  describe.each([
+    { method: "getFolloweeCount", countName: "followee" },
+    { method: "getFollowerCount", countName: "follower" },
+  ] as const)("$method", ({ method, countName }) => {
     const request: GetFollowCountRequest = {
       authToken: FakeData.instance.authToken.dto,
       user: FakeData.instance.firstUser!.dto,
     };
 
-    it("returns the user's follower count", async () => {
-      const count = await serverFacade.getFollowerCount(request);
+    it(`returns the user's ${countName} count`, async () => {
+      const count = await serverFacade[method](request);
 
       // FakeData picks a random whole number from 1 to 10, so check the range.
       expect(Number.isInteger(count)).toBe(true);
