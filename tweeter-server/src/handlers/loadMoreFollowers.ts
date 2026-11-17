@@ -8,12 +8,13 @@ import {
     UserDto,
 } from "tweeter-shared";
 import { FollowService } from "../service/FollowService";
+import { withErrorTags } from "../util/withErrorTags";
 
 // LoadMoreFollowers endpoint.
 // API Gateway passes the JSON request body in as `request` and returns whatever
 // this function returns as the response body. This only converts DTOs to and from
 // domain objects; the service does the work.
-export const handler = async (
+export const handler = withErrorTags(async (
     request: PagedItemRequest<UserDto>
 ): Promise<PagedItemResponse<UserDto>> => {
     const [users, hasMore] = await new FollowService().loadMoreFollowers(
@@ -29,4 +30,4 @@ export const handler = async (
         items: users.map((user) => user.dto),
         hasMore,
     };
-};
+});

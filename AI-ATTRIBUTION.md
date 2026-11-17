@@ -157,3 +157,8 @@
 - Tool: Claude Code
 - Task: Add 400 and 500 integration responses (with CORS) to every API Gateway endpoint.
 - Review: deploys, terraform looks good
+
+## 2026-11-17: tweeter-server/src/handlers/follow.ts, tweeter-server/src/handlers/getFolloweeCount.ts, tweeter-server/src/handlers/getFollowerCount.ts, tweeter-server/src/handlers/getUser.ts, tweeter-server/src/handlers/isFollower.ts, tweeter-server/src/handlers/loadMoreFeedItems.ts, tweeter-server/src/handlers/loadMoreFollowees.ts, tweeter-server/src/handlers/loadMoreFollowers.ts, tweeter-server/src/handlers/loadMoreStoryItems.ts, tweeter-server/src/handlers/login.ts, tweeter-server/src/handlers/logout.ts, tweeter-server/src/handlers/postStatus.ts, tweeter-server/src/handlers/register.ts, tweeter-server/src/handlers/unfollow.ts, tweeter-server/src/util/withErrorTags.ts (new file), AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Make the handlers turn untagged errors into "[Server Error]" errors so unexpected crashes return a 500 instead of a 200.
+- Review: wrapped all the lambdas in an error handler so the errors are setup correctly. Deployment works e2e.

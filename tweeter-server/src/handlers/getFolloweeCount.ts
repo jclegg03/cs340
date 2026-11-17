@@ -7,12 +7,13 @@ import {
     User,
 } from "tweeter-shared";
 import { FollowService } from "../service/FollowService";
+import { withErrorTags } from "../util/withErrorTags";
 
 // GetFolloweeCount endpoint.
 // API Gateway passes the JSON request body in as `request` and returns whatever
 // this function returns as the response body. This only converts DTOs to and from
 // domain objects; the service does the work.
-export const handler = async (
+export const handler = withErrorTags(async (
     request: GetFollowCountRequest
 ): Promise<GetFollowCountResponse> => {
     const count = await new FollowService().getFolloweeCount(
@@ -21,4 +22,4 @@ export const handler = async (
     );
 
     return { success: true, message: null, count };
-};
+});

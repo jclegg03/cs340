@@ -2,12 +2,13 @@
 
 import { RegisterRequest, RegisterResponse } from "tweeter-shared";
 import { UserService } from "../service/UserService";
+import { withErrorTags } from "../util/withErrorTags";
 
 // Register endpoint.
 // API Gateway passes the JSON request body in as `request` and returns whatever
 // this function returns as the response body. This only converts DTOs to and from
 // domain objects; the service does the work.
-export const handler = async (
+export const handler = withErrorTags(async (
     request: RegisterRequest
 ): Promise<RegisterResponse> => {
     const [user, authToken] = await new UserService().register(
@@ -25,4 +26,4 @@ export const handler = async (
         user: user ? user.dto : null,
         authToken: authToken.dto,
     };
-};
+});
