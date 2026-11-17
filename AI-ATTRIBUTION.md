@@ -127,3 +127,8 @@
 - Tool: Claude Code
 - Task: Write Jest integration tests that call the ServerFacade directly to verify it communicates with the server, starting with register only.
 - Review: Test passes and tests against the fake data class.
+
+## 2026-11-17: tweeter-web/test/network/ServerFacade.test.ts, AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Add Jest integration tests that call the ServerFacade directly to verify getting followers (getMoreFollowers) from the server.
+- Review: tests look good. Tests the first page against fake data. Tests that the next page starts in the right spot. Tests that the last page is marked correctly. All tests pass.

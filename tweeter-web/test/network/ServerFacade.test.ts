@@ -10,7 +10,14 @@
 // The server has no storage yet and returns FakeData, so expectations use the
 // values from FakeData.
 
-import { AuthToken, FakeData, RegisterRequest, User } from "tweeter-shared";
+import {
+  AuthToken,
+  FakeData,
+  PagedItemRequest,
+  RegisterRequest,
+  User,
+  UserDto,
+} from "tweeter-shared";
 import { ServerFacade } from "../../src/network/ServerFacade";
 
 // Calls go over the network, and a cold Lambda can take a few seconds to start.
@@ -56,6 +63,81 @@ describe("ServerFacade integration tests", () => {
       expect(typeof authToken.token).toBe("string");
       expect(authToken.token.length).toBeGreaterThan(0);
       expect(authToken.timestamp).toBeGreaterThan(0);
+    });
+  });
+
+  describe("getMoreFollowers", () => {
+    const userAlias = "@allen";
+
+    const followersRequest = (
+      pageSize: number,
+      lastItem: User | null,
+    ): PagedItemRequest<UserDto> => ({
+      authToken: FakeData.instance.authToken.dto,
+      userAlias,
+      pageSize,
+      lastItem: lastItem ? lastItem.dto : null,
+    });
+
+    // The page the server should send back, worked out from the same FakeData.
+    const expectedPage = (
+      pageSize: number,
+      lastItem: User | null,
+    ): [UserDto[], boolean] => {
+      const [users, hasMore] = FakeData.instance.getPageOfUsers(
+        lastItem,
+        pageSize,
+        userAlias,
+      );
+      return [users.map((user) => user.dto), hasMore];
+    };
+
+    it("returns the first page of followers", async () => {
+      const [followers, hasMore] = await serverFacade.getMoreFollowers(
+        followersRequest(10, null),
+      );
+
+      const [expectedFollowers, expectedHasMore] = expectedPage(10, null);
+      expect(followers).toHaveLength(10);
+      followers.forEach((follower) => expect(follower).toBeInstanceOf(User));
+      expect(followers.map((follower) => follower.dto)).toEqual(
+        expectedFollowers,
+      );
+      expect(hasMore).toBe(expectedHasMore);
+      expect(hasMore).toBe(true);
+    });
+
+    it("returns the page after lastItem", async () => {
+      const lastItem = FakeData.instance.findUserByAlias("@bonnie")!;
+
+      const [followers, hasMore] = await serverFacade.getMoreFollowers(
+        followersRequest(5, lastItem),
+      );
+
+      const [expectedFollowers, expectedHasMore] = expectedPage(5, lastItem);
+      expect(followers.map((follower) => follower.dto)).toEqual(
+        expectedFollowers,
+      );
+      expect(followers[0].alias).toBe("@chris");
+      expect(hasMore).toBe(expectedHasMore);
+    });
+
+    it("reports no more followers on the last page", async () => {
+      const lastItem = FakeData.instance.findUserByAlias("@jill")!;
+
+      const [followers, hasMore] = await serverFacade.getMoreFollowers(
+        followersRequest(10, lastItem),
+      );
+
+      const [expectedFollowers] = expectedPage(10, lastItem);
+      expect(followers.map((follower) => follower.dto)).toEqual(
+        expectedFollowers,
+      );
+      expect(followers.map((follower) => follower.alias)).toEqual([
+        "@kent",
+        "@kathy",
+      ]);
+      expect(hasMore).toBe(false);
     });
   });
 });
