@@ -167,3 +167,8 @@
 - Tool: Claude Code
 - Task: Split the bloated tweeter-server/main.tf into multiple Terraform files, each handling a different part of creating the service.
 - Review: The files are much smaller now. It even fixed a comment I would have never caught doing this manually. Terraform reports the config is the same!
+
+## 2026-11-17: tweeter-server/api.auto.tfvars, tweeter-server/api_deployment.tf, tweeter-server/parameters.tf, tweeter-server/api_docs.tf (new file), AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Add API Gateway documentation (a description for every method, published as a documentation version on the dev stage) to the Terraform.
+- Review: Docs look good!

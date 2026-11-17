@@ -10,7 +10,8 @@ variable "api_resource" {
     # pathPart: URL path segment, e.g. "login" -> /dev/login
     # httpMethod: e.g. "POST"
     # lambda: key of the lambda (from var.lambda) that handles this endpoint
-    type= map(object({pathPart = string, httpMethod = string, lambda = string}))
+    # description: what the endpoint does, published as API Gateway documentation
+    type= map(object({pathPart = string, httpMethod = string, lambda = string, description = string}))
     default = {}
 }
 

@@ -37,4 +37,6 @@ resource "aws_api_gateway_stage" "dev" {
     deployment_id = aws_api_gateway_deployment.deployment.id
     rest_api_id = aws_api_gateway_rest_api.tweeter_api.id
     stage_name = "dev"
+    # The published API documentation (api_docs.tf) shown for this stage.
+    documentation_version = aws_api_gateway_documentation_version.docs.version
 }

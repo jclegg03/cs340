@@ -1,0 +1,2042 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "2026-11-17T19:52:50Z",
+    "title" : "TweeterAPI"
+  },
+  "host" : "u74wryiyf1.execute-api.us-west-2.amazonaws.com",
+  "basePath" : "/dev",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/follow" : {
+      "post" : {
+        "description" : "Makes the signed-in user follow another user. Body: authToken, user (the user to follow). Returns that user's new followerCount and followeeCount.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-follow/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/getFolloweeCount" : {
+      "post" : {
+        "description" : "Returns how many users a user is following. Body: authToken, user. Returns count.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-getFolloweeCount/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/getFollowerCount" : {
+      "post" : {
+        "description" : "Returns how many users follow a user. Body: authToken, user. Returns count.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-getFollowerCount/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/getUser" : {
+      "post" : {
+        "description" : "Looks up a user by alias. Body: authToken, alias. Returns the user, or null when no user has that alias.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-getUser/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/isFollower" : {
+      "post" : {
+        "description" : "Checks whether one user follows another. Body: authToken, user, selectedUser. Returns isFollower, which is true when user follows selectedUser.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-isFollower/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/loadMoreFeedItems" : {
+      "post" : {
+        "description" : "Returns one page of a user's feed, the statuses posted by the users they follow. Body: authToken, userAlias, pageSize, lastItem (the last status on the previous page, or null for the first page). Returns items (statuses) and hasMore.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-loadMoreFeedItems/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/loadMoreFollowees" : {
+      "post" : {
+        "description" : "Returns one page of the users a user is following. Body: authToken, userAlias, pageSize, lastItem (the last user on the previous page, or null for the first page). Returns items (users) and hasMore.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-loadMoreFollowees/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/loadMoreFollowers" : {
+      "post" : {
+        "description" : "Returns one page of the users who follow a user. Body: authToken, userAlias, pageSize, lastItem (the last user on the previous page, or null for the first page). Returns items (users) and hasMore.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-loadMoreFollowers/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/loadMoreStoryItems" : {
+      "post" : {
+        "description" : "Returns one page of a user's story, the statuses they posted. Body: authToken, userAlias, pageSize, lastItem (the last status on the previous page, or null for the first page). Returns items (statuses) and hasMore.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-loadMoreStoryItems/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/login" : {
+      "post" : {
+        "description" : "Signs a user in. Body: alias, password. Returns the user and a new auth token.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-login/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/logout" : {
+      "post" : {
+        "description" : "Signs a user out. Body: authToken. Ends the session for that token.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-logout/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/postStatus" : {
+      "post" : {
+        "description" : "Posts a new status for the signed-in user. Body: authToken, newStatus (post text, user, timestamp).",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-postStatus/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/register" : {
+      "post" : {
+        "description" : "Creates a new user and signs them in. Body: firstName, lastName, alias, password, userImageBase64 (profile image bytes as base64), imageFileExtension (e.g. \"png\"). Returns the new user and an auth token.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-register/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    },
+    "/unfollow" : {
+      "post" : {
+        "description" : "Makes the signed-in user stop following another user. Body: authToken, user (the user to unfollow). Returns that user's new followerCount and followeeCount.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:864899861278:function:tweeter-unfollow/invocations",
+          "httpMethod" : "POST",
+          "responses" : {
+            ".*\\[Server Error\\].*" : {
+              "statusCode" : "500",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            },
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n$input.json('$')"
+              }
+            },
+            ".*\\[Bad Request\\].*" : {
+              "statusCode" : "400",
+              "responseParameters" : {
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n{\"errorMessage\": $input.json('$.errorMessage')}"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "contentHandling" : "CONVERT_TO_TEXT",
+          "type" : "aws"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Vary" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization'",
+                "method.response.header.Vary" : "'Origin'"
+              },
+              "responseTemplates" : {
+                "application/json" : "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\")#set($origin = $input.params(\"origin\"))#end\n#set($allowedOrigins = [\"http://localhost:5173\"])\n#if($allowedOrigins.contains($origin))\n#set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end\n"
+              }
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior" : "when_no_match",
+          "timeoutInMillis" : 29000,
+          "type" : "mock"
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Empty" : {
+      "type" : "object",
+      "title" : "Empty Schema"
+    },
+    "Error" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string"
+        }
+      },
+      "title" : "Error Schema"
+    }
+  },
+  "x-amazon-apigateway-documentation" : {
+    "version" : "1.0-5e964460",
+    "createdDate" : "2026-11-17T20:14:58Z",
+    "documentationParts" : [ {
+      "location" : {
+        "type" : "API"
+      },
+      "properties" : {
+        "description" : "Tweeter API. Every endpoint is a POST that takes a JSON body and returns a JSON body with success and message, plus the endpoint's own fields. Endpoints other than login and register need the authToken from login or register in the body. Errors return 400 (bad request) or 500 (server error) with an errorMessage."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/follow",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Makes the signed-in user follow another user. Body: authToken, user (the user to follow). Returns that user's new followerCount and followeeCount."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/getFolloweeCount",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Returns how many users a user is following. Body: authToken, user. Returns count."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/getFollowerCount",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Returns how many users follow a user. Body: authToken, user. Returns count."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/getUser",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Looks up a user by alias. Body: authToken, alias. Returns the user, or null when no user has that alias."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/isFollower",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Checks whether one user follows another. Body: authToken, user, selectedUser. Returns isFollower, which is true when user follows selectedUser."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/loadMoreFeedItems",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Returns one page of a user's feed, the statuses posted by the users they follow. Body: authToken, userAlias, pageSize, lastItem (the last status on the previous page, or null for the first page). Returns items (statuses) and hasMore."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/loadMoreFollowees",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Returns one page of the users a user is following. Body: authToken, userAlias, pageSize, lastItem (the last user on the previous page, or null for the first page). Returns items (users) and hasMore."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/loadMoreFollowers",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Returns one page of the users who follow a user. Body: authToken, userAlias, pageSize, lastItem (the last user on the previous page, or null for the first page). Returns items (users) and hasMore."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/loadMoreStoryItems",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Returns one page of a user's story, the statuses they posted. Body: authToken, userAlias, pageSize, lastItem (the last status on the previous page, or null for the first page). Returns items (statuses) and hasMore."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/login",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Signs a user in. Body: alias, password. Returns the user and a new auth token."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/logout",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Signs a user out. Body: authToken. Ends the session for that token."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/postStatus",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Posts a new status for the signed-in user. Body: authToken, newStatus (post text, user, timestamp)."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/register",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Creates a new user and signs them in. Body: firstName, lastName, alias, password, userImageBase64 (profile image bytes as base64), imageFileExtension (e.g. \"png\"). Returns the new user and an auth token."
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/unfollow",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "Makes the signed-in user stop following another user. Body: authToken, user (the user to unfollow). Returns that user's new followerCount and followeeCount."
+      }
+    } ]
+  },
+  "x-amazon-apigateway-security-policy" : "TLS_1_0"
+}
