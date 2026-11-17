@@ -23,5 +23,10 @@ export const handler = async (
         User.fromDto(request.lastItem)
     );
 
-    return { items: users.map((user) => user.dto), hasMore };
+    return {
+        success: true,
+        message: null,
+        items: users.map((user) => user.dto),
+        hasMore,
+    };
 };

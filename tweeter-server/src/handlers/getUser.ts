@@ -15,5 +15,5 @@ export const handler = async (
         request.alias
     );
 
-    return { user: user ? user.dto : null };
+    return { success: true, message: null, user: user ? user.dto : null };
 };

@@ -21,5 +21,5 @@ export const handler = async (
         User.fromDto(request.selectedUser)!
     );
 
-    return { isFollower };
+    return { success: true, message: null, isFollower };
 };

@@ -19,5 +19,10 @@ export const handler = async (
         request.imageFileExtension
     );
 
-    return { user: user ? user.dto : null, authToken: authToken.dto };
+    return {
+        success: true,
+        message: null,
+        user: user ? user.dto : null,
+        authToken: authToken.dto,
+    };
 };

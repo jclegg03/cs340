@@ -15,5 +15,5 @@ export const handler = async (
         User.fromDto(request.user)!
     );
 
-    return { followerCount, followeeCount };
+    return { success: true, message: null, followerCount, followeeCount };
 };

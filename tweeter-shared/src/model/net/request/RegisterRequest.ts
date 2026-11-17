@@ -1,7 +1,9 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 
+import { TweeterRequest } from "./TweeterRequest";
+
 // Body the frontend sends to the register endpoint.
-export interface RegisterRequest {
+export interface RegisterRequest extends TweeterRequest {
   readonly firstName: string;
   readonly lastName: string;
   readonly alias: string;

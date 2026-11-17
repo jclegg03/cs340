@@ -20,5 +20,5 @@ export const handler = async (
         Status.fromDto(request.newStatus)!
     );
 
-    return { success: true };
+    return { success: true, message: null };
 };

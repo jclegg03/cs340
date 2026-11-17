@@ -23,5 +23,10 @@ export const handler = async (
         Status.fromDto(request.lastItem)
     );
 
-    return { items: statuses.map((status) => status.dto), hasMore };
+    return {
+        success: true,
+        message: null,
+        items: statuses.map((status) => status.dto),
+        hasMore,
+    };
 };

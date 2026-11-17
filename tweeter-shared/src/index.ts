@@ -11,6 +11,8 @@ export type { StatusDto } from "./model/dto/StatusDto";
 export type { AuthTokenDto } from "./model/dto/AuthTokenDto";
 
 // Request/response bodies for the server API
+export type { TweeterRequest } from "./model/net/request/TweeterRequest";
+export type { TweeterResponse } from "./model/net/response/TweeterResponse";
 export type { LoginRequest } from "./model/net/request/LoginRequest";
 export type { LogoutRequest } from "./model/net/request/LogoutRequest";
 export type { RegisterRequest } from "./model/net/request/RegisterRequest";

@@ -12,5 +12,5 @@ export const handler = async (
 ): Promise<LogoutResponse> => {
     await new UserService().logout(AuthToken.fromDto(request.authToken)!);
 
-    return { success: true };
+    return { success: true, message: null };
 };

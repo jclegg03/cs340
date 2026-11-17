@@ -20,5 +20,5 @@ export const handler = async (
         User.fromDto(request.user)!
     );
 
-    return { count };
+    return { success: true, message: null, count };
 };
