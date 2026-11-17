@@ -122,3 +122,8 @@
 - Tool: Claude Code
 - Task: Refactor the frontend services to call a ServerFacade, which converts to and from DTOs and sends requests through a ClientCommunicator (code for both provided by me).
 - Review: Splitting review into 2 parts. BE and FE. e2e works. Now reviewing backend changes. BE added request/res base objects and refactored handlers to use them. The base res objects have a success and message attribute. The frontend now has the following flow: service converts objects to dto and calls the server facade. The server facade calls the client communicator which sends the HTTP request and returns the response. The facade then converts the dto into real objects for the service to use.
+
+## 2026-11-17: tweeter-web/test/network/ServerFacade.test.ts (new file), AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Write Jest integration tests that call the ServerFacade directly to verify it communicates with the server, starting with register only.
+- Review: Test passes and tests against the fake data class.
