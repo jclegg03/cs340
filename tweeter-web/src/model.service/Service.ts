@@ -1,21 +1,9 @@
+// AI-assisted: see AI-ATTRIBUTION.md
+import { ServerFacade } from "../network/ServerFacade";
+
+// Base class for the frontend services. Services build request bodies (converting
+// domain objects to DTOs) and send them through the ServerFacade, which talks to
+// the server and converts the response DTOs back into domain objects.
 export class Service {
-    protected apiUrl: string;
-
-    constructor() {
-        this.apiUrl = "https://u74wryiyf1.execute-api.us-west-2.amazonaws.com/dev";
-    }
-
-    protected callApi<ResT, ReqT>(
-        endpoint: string,
-        method: string,
-        body?: ReqT
-    ): Promise<ResT> {
-        return fetch(`${this.apiUrl}/${endpoint}`, {
-            method,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: body ? JSON.stringify(body) : undefined,
-        }).then((res) => res.json());
-    }
+    protected serverFacade = new ServerFacade();
 }

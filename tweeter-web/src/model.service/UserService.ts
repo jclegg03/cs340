@@ -1,31 +1,15 @@
 // AI-assisted: see AI-ATTRIBUTION.md
-import {
-    AuthToken,
-    User,
-    GetUserRequest,
-    GetUserResponse,
-    LoginRequest,
-    LoginResponse,
-    LogoutRequest,
-    LogoutResponse,
-    RegisterRequest,
-    RegisterResponse,
-} from "tweeter-shared";
+import { AuthToken, User } from "tweeter-shared";
 import { Buffer } from "buffer";
 import { Service } from "./Service";
 
 export class UserService extends Service {
+    // Returns null when no user has the alias.
     public async getUser(
         authToken: AuthToken,
         alias: string
     ): Promise<User | null> {
-        const data = await this.callApi<GetUserResponse, GetUserRequest>(
-            "getUser",
-            "POST",
-            { authToken: authToken.dto, alias }
-        );
-        // null when the server has no user with this alias.
-        return User.fromDto(data.user);
+        return this.serverFacade.getUser({ authToken: authToken.dto, alias });
     }
 
     public updateUserInfo() { return null; }
@@ -36,20 +20,7 @@ export class UserService extends Service {
         alias: string,
         password: string
     ): Promise<[User, AuthToken]> {
-        const data = await this.callApi<LoginResponse, LoginRequest>(
-            "login",
-            "POST",
-            { alias, password }
-        );
-        // The server sends DTOs (plain data); turn them back into real classes.
-        const user = User.fromDto(data.user);
-        const authToken = AuthToken.fromDto(data.authToken);
-
-        if (user === null || authToken === null) {
-            throw new Error("Invalid alias or password");
-        }
-
-        return [user, authToken];
+        return this.serverFacade.login({ alias, password });
     }
 
     public async register(
@@ -64,38 +35,17 @@ export class UserService extends Service {
         const imageStringBase64: string =
             Buffer.from(userImageBytes).toString("base64");
 
-        const data = await this.callApi<RegisterResponse, RegisterRequest>(
-            "register",
-            "POST",
-            {
-                firstName,
-                lastName,
-                alias,
-                password,
-                userImageBase64: imageStringBase64,
-                imageFileExtension,
-            }
-        );
-        // The server sends DTOs (plain data); turn them back into real classes.
-        const user = User.fromDto(data.user);
-        const authToken = AuthToken.fromDto(data.authToken);
-
-        if (user === null || authToken === null) {
-            throw new Error("Invalid registration");
-        }
-
-        return [user, authToken];
+        return this.serverFacade.register({
+            firstName,
+            lastName,
+            alias,
+            password,
+            userImageBase64: imageStringBase64,
+            imageFileExtension,
+        });
     };
 
     public async logout(authToken: AuthToken): Promise<void> {
-        const data = await this.callApi<LogoutResponse, LogoutRequest>(
-            "logout",
-            "POST",
-            { authToken: authToken.dto }
-        );
-
-        if (!data.success) {
-            throw new Error("Logout failed");
-        }
+        await this.serverFacade.logout({ authToken: authToken.dto });
     }
 }
