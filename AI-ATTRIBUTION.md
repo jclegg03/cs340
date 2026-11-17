@@ -162,3 +162,8 @@
 - Tool: Claude Code
 - Task: Make the handlers turn untagged errors into "[Server Error]" errors so unexpected crashes return a 500 instead of a 200.
 - Review: wrapped all the lambdas in an error handler so the errors are setup correctly. Deployment works e2e.
+
+## 2026-11-17: tweeter-server/main.tf (deleted), tweeter-server/src/util/withErrorTags.ts, tweeter-server/api_deployment.tf (new file), tweeter-server/api_errors.tf (new file), tweeter-server/api_gateway.tf (new file), tweeter-server/cors.tf (new file), tweeter-server/iam.tf (new file), tweeter-server/lambda.tf (new file), tweeter-server/outputs.tf (new file), tweeter-server/providers.tf (new file), AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Split the bloated tweeter-server/main.tf into multiple Terraform files, each handling a different part of creating the service.
+- Review: The files are much smaller now. It even fixed a comment I would have never caught doing this manually. Terraform reports the config is the same!

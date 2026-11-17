@@ -1,7 +1,7 @@
 // AI-assisted: see AI-ATTRIBUTION.md
 
 // API Gateway picks a handler's error status code by matching the thrown error's
-// message against the tags in main.tf (error_status_patterns). Keep this list in
+// message against the tags in api_errors.tf (error_status_patterns). Keep this list in
 // sync with it.
 const ERROR_TAGS = ["[Bad Request]", "[Server Error]"];
 
