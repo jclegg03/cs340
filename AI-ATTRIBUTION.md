@@ -172,3 +172,8 @@
 - Tool: Claude Code
 - Task: Add API Gateway documentation (a description for every method, published as a documentation version on the dev stage) to the Terraform.
 - Review: Docs look good!
+
+## 2026-11-17: docs/post-status-sequence.txt (new file), AI-ATTRIBUTION.md
+- Tool: Claude Code
+- Task: Create the Milestone 3 UML sequence diagram (sequencediagram.org syntax) for a user successfully posting a status, from submitPost() on the PostStatus component to displayInfoMessage() on its listener, across client, API Gateway, and server.
+- Review: Diagram looks really good.

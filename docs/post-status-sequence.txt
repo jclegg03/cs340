@@ -1,0 +1,112 @@
+// AI-assisted: see AI-ATTRIBUTION.md
+// Open at https://sequencediagram.org, then export to PDF.
+title Tweeter: User Successfully Posts a Status (Milestone 3)
+
+participantgroup #lightblue Client (tweeter-web, browser)
+  actor User
+  participant "PostStatus\n(component)" as PostStatus
+  participant "listener :\nPostStatusView" as listener
+  participant ":PostStatusPresenter" as Presenter
+  participant "status :\nStatus" as status
+  participant "authToken :\nAuthToken" as authToken
+  participant ":StatusService" as ClientStatusService
+  participant ":ServerFacade" as ServerFacade
+  participant ":ClientCommunicator" as ClientCommunicator
+end
+
+boundary "API Gateway\n(TweeterAPI, dev stage)" as APIGW
+
+participantgroup #lightgreen Server (tweeter-server, AWS Lambda)
+  participant "tweeter-postStatus\nhandler" as Handler
+  participant "AuthToken\n(class)" as AuthTokenClass
+  participant "Status\n(class)" as StatusClass
+  participant ":StatusService" as ServerStatusService
+end
+
+note over User,ClientStatusService: Solid open arrow: an async call that returns a Promise; the caller awaits it.\nDashed open arrow: that Promise resolving, after which the awaiting caller continues.
+
+User->PostStatus: submitPost(event)\n(clicks "Post Status")
+activate PostStatus
+PostStatus->PostStatus: event.preventDefault()
+
+PostStatus->>Presenter: submitPost(post, currentUser, authToken)
+activate Presenter
+Presenter->Presenter: tryAndCatchWithLoading({operation,\n"post the status", finalOperation})
+Presenter->Presenter: tryAndCatch(context)
+note right of Presenter: operation() runs inside try { await operation() }
+Presenter->listener: setIsLoading(true)
+Presenter->listener: displayInfoMessage("Posting status...", 0)
+activate listener
+listener-->Presenter: postingStatusToastId
+deactivate listener
+
+Presenter->*status: new Status(post, currentUser, Date.now())
+
+Presenter->>ClientStatusService: postStatus(authToken, status)
+activate ClientStatusService
+ClientStatusService->authToken: dto
+activate authToken
+authToken-->ClientStatusService: AuthTokenDto
+deactivate authToken
+ClientStatusService->status: dto
+activate status
+status-->ClientStatusService: StatusDto {post, user: UserDto, timestamp}
+deactivate status
+
+ClientStatusService->>ServerFacade: postStatus(PostStatusRequest\n{authToken: AuthTokenDto, newStatus: StatusDto})
+activate ServerFacade
+ServerFacade->ServerFacade: post<PostStatusRequest, PostStatusResponse>\n(request, "/postStatus")
+ServerFacade->>ClientCommunicator: doPost(request, "/postStatus")
+activate ClientCommunicator
+ClientCommunicator->ClientCommunicator: headers = Content-type: application/json\nbody = JSON.stringify(request)
+
+==Network: browser to AWS==
+
+ClientCommunicator->>APIGW: OPTIONS /postStatus\n(CORS preflight, sent by the browser)
+activate APIGW
+APIGW-->>ClientCommunicator: 200 + Access-Control-Allow-Origin/Methods/Headers\n(MOCK integration, no Lambda)
+deactivate APIGW
+
+ClientCommunicator->>APIGW: await fetch(POST {SERVER_URL}/postStatus,\nbody: PostStatusRequest JSON)
+activate APIGW
+APIGW->>Handler: invoke tweeter-postStatus\n(handlers/postStatus.handler, event = PostStatusRequest)
+activate Handler
+note right of Handler: handler is wrapped in withErrorTags():\nthrown errors would be tagged [Bad Request] / [Server Error]\n(none are thrown in this successful case)
+
+Handler->AuthTokenClass: AuthToken.fromDto(request.authToken)
+activate AuthTokenClass
+AuthTokenClass-->Handler: authToken : AuthToken
+deactivate AuthTokenClass
+Handler->StatusClass: Status.fromDto(request.newStatus)
+activate StatusClass
+StatusClass-->Handler: newStatus : Status
+deactivate StatusClass
+
+Handler->>ServerStatusService: postStatus(authToken, newStatus)
+activate ServerStatusService
+note right of ServerStatusService: No storage yet (Milestone 3 uses FakeData);\nsaving to the story and followers' feeds comes with the DAOs in 4A
+ServerStatusService-->>Handler: Promise<void> resolves
+deactivate ServerStatusService
+
+Handler-->>APIGW: PostStatusResponse {success: true, message: null}
+deactivate Handler
+APIGW->APIGW: integration response 200\n(no error tag matched; adds Access-Control-Allow-Origin)
+APIGW-->>ClientCommunicator: HTTP 200, body: PostStatusResponse JSON
+deactivate APIGW
+
+==Back in the browser==
+
+ClientCommunicator->ClientCommunicator: resp.ok, so response = await resp.json()
+ClientCommunicator-->>ServerFacade: Promise<PostStatusResponse> resolves
+deactivate ClientCommunicator
+ServerFacade->ServerFacade: response.success is true, so no error is thrown
+ServerFacade-->>ClientStatusService: Promise<void> resolves
+deactivate ServerFacade
+ClientStatusService-->>Presenter: Promise<void> resolves
+deactivate ClientStatusService
+
+Presenter->listener: setPost('')
+Presenter->listener: displayInfoMessage("Status posted!", 2000)
+activate listener
+note right of listener: End of the scenario. Afterward, tryAndCatch's finally\nruns deleteMessage(postingStatusToastId) and setIsLoading(false).
+deactivate listener

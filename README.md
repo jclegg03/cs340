@@ -2,6 +2,10 @@
 
 A starter project for the Tweeter Web application.
 
+# Special Thanks/attribution
+[Alex Skill Mall](https://github.com/fabioc-aloha/Alex_Skill_Mall/tree/main/plugins/documentation/sequence-diagram/skills) for the sequence-diagram.org skill.
+Claude code
+
 ## Setting Up the Project
 
 1. cd into the project root folder
